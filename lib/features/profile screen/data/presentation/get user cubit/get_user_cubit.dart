@@ -21,7 +21,9 @@ class GetUserCubit extends Cubit<GetUserState> {
       if (e is ApiError) {
         emit(GetUserFailed(apiError: e));
       } else {
-        throw Exception(e);
+        emit(GetUserFailed(
+          apiError: ApiError(message: e.toString()),
+        ));
       }
     }
   }
@@ -44,7 +46,9 @@ class GetUserCubit extends Cubit<GetUserState> {
       if (e is ApiError) {
         emit(GetUserFailed(apiError: e));
       } else {
-        throw Exception(e);
+        emit(GetUserFailed(
+          apiError: ApiError(message: e.toString()),
+        ));
       }
     }
   }

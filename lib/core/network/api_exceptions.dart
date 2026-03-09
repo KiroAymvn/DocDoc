@@ -3,34 +3,29 @@ import 'package:dio/dio.dart';
 import 'api_error.dart';
 
 class ApiExceptions {
-  //function to be called at any place in try and catch to make model from error
+  /// Safely convert a [DioException] to an [ApiError].
+  /// Handles cases where the server returns non-JSON bodies (e.g. HTML 500 pages).
   static ApiError handleError(DioException error) {
-    //if the error is exception
-    switch (error.type) {
-      case DioExceptionType.connectionError:
-        throw ApiError.fromJson(error.response!.data);
-      case DioExceptionType.connectionTimeout:
-        throw ApiError.fromJson(error.response!.data);
-      case DioExceptionType.sendTimeout:
-        throw ApiError.fromJson(error.response!.data);
+    final response = error.response;
 
-      case DioExceptionType.receiveTimeout:
-        throw ApiError.fromJson(error.response!.data);
-
-      case DioExceptionType.badCertificate:
-        throw ApiError.fromJson(error.response!.data);
-
-      case DioExceptionType.cancel:
-        throw ApiError.fromJson(error.response!.data);
-
-      case DioExceptionType.connectionError:
-        throw ApiError.fromJson(error.response!.data);
-    //error from user
-      case DioExceptionType.badResponse:
-        throw ApiError.fromJson(error.response!.data);
-      case DioExceptionType.unknown:
-      default:
-        throw ApiError.fromJson(error.response!.data);
+    // No response at all (network error, timeout, etc.)
+    if (response == null) {
+      throw ApiError(
+        statusCode: 0,
+        message: error.message ?? 'Network error. Please check your connection.',
+      );
     }
+
+    // Try to parse the body as JSON. If the server returned HTML or plain text
+    // (e.g. a 500 error page), fromJson would crash — so we guard here.
+    if (response.data is Map<String, dynamic>) {
+      throw ApiError.fromJson(response.data as Map<String, dynamic>);
+    }
+
+    // Fallback: non-JSON body (HTML, plain text, etc.)
+    throw ApiError(
+      statusCode: response.statusCode,
+      message: 'Server error (${response.statusCode}). Please try again later.',
+    );
   }
 }

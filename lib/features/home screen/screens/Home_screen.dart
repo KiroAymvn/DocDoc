@@ -6,7 +6,7 @@ import 'package:appointment/features/home%20screen/data/model/home_page_model.da
 import 'package:appointment/features/home%20screen/data/presentation/home_cubit.dart';
 import 'package:appointment/features/home%20screen/screens/all_doctor_speciality_screen.dart';
 import 'package:appointment/features/home%20screen/screens/all_doctors_screen.dart';
-import 'package:appointment/features/search%20doctor/screen/search_screen.dart';
+import 'package:appointment/features/search%20doctor/screen/search_screen.dart' hide CustomDoctorCardWidget;
 import 'package:appointment/shared/custom_button.dart';
 import 'package:appointment/shared/custom_text.dart';
 import 'package:flutter/cupertino.dart';

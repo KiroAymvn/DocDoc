@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
-import 'package:skeletonizer/skeletonizer.dart';
-
 import '../../home screen/widgets/custom_doctor_card_widget.dart';
+import '../widgets/custom_doctor_card_widget.dart';
+
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
@@ -43,7 +43,7 @@ class SearchScreen extends StatelessWidget {
                             itemCount: state.doctorList.length,
                             itemBuilder: (context, index) {
                               final item = state.doctorList[index];
-                              return CustomDoctorCardWidget(item: item);
+                              return CustomDoctorCardWidget(item: item,);
                             },
                           ),
                         )

@@ -70,10 +70,12 @@ class AuthCubit extends Cubit<AuthState> {
       await PrefHelper.saveLogged(true);
 
     } catch (e) {
-      if(e is ApiError){
+      if (e is ApiError) {
         emit(AuthFailed(apiError: e));
-      }else{
-        throw Exception(e);
+      } else {
+        emit(AuthFailed(
+          apiError: ApiError(message: e.toString()),
+        ));
       }
     }
   }

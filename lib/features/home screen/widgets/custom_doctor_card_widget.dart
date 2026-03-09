@@ -21,9 +21,9 @@ class CustomDoctorCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
 
-     onTap: (){
-       Navigator.push(context, MaterialPageRoute(builder: (context) => AboutDoctorScreen(doctor: item),));
-     },
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context) => AboutDoctorScreen(doctor: item),));
+      },
       child: Padding(
         padding:  EdgeInsets.all(8.0.sp),
         child: SizedBox(
