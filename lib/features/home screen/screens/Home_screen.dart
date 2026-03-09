@@ -105,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           Positioned(
                             child: Container(
-                              height: 180.h,
+                              height: 148.h,
                               decoration: BoxDecoration(color: Colors.transparent),
                             ),
                           ),
@@ -132,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                           Positioned(
-                            top: 65.h,
+                            top: 55.h,
                             left: 20.w,
                             child: SizedBox(
                               child: Column(
