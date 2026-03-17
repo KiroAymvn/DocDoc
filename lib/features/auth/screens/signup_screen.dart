@@ -15,7 +15,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:day_night_themed_switcher/day_night_themed_switcher.dart';
 import '../../../shared/custom_scaffold_messanger.dart';
 import '../../../shared/custom_text_form_field.dart';
@@ -59,23 +59,28 @@ class _SignupScreenState extends State<SignupScreen> {
             child: Scaffold(
               body: SafeArea(
                 child: Padding(
-                  padding: EdgeInsetsGeometry.all(ScreenSize.screenWidth(context) * 0.040),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: ScreenSize.screenWidth(context) * 0.050,
+                    vertical: ScreenSize.screenWidth(context) * 0.020,
+                  ),
                   child: ListView(
                     children: [
+                      Gap(10.h),
                       LogoDocdoc(),
-                      Gap(25.h),
-                      CustomText(text: "Create your account", size: 25, fontWeight: FontWeight.bold),
+                      Gap(30.h),
+                      CustomText(text: "Create your account", size: 26, fontWeight: FontWeight.bold, color: AppColors.kDarkText),
+                      Gap(8.h),
                       CustomText(
                         text: "Please take a few minutes to fill out your profile with as much detail as possible.",
-                        size: 15,
-                        color: AppColors.kGrey,
+                        size: 14,
+                        color: AppColors.kTextMuted,
                         textAlign: TextAlign.left,
                       ),
-                      Gap(25.h),
+                      Gap(30.h),
                       CustomTextFormField(hintText: "Full Name", controller: cubit.fullNameController),
-                      Gap(20.h),
+                      Gap(16.h),
                       CustomTextFormField(hintText: "Email", controller: cubit.emailController),
-                      Gap(20.h),
+                      Gap(16.h),
                       Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
@@ -90,27 +95,27 @@ class _SignupScreenState extends State<SignupScreen> {
                           MaleFemaleWidget(cubit: cubit),
                         ],
                       ),
-                      Gap(20.h),
+                      Gap(16.h),
                       CustomTextFormField(
                         hintText: "Password",
                         isObscureText: true,
                         controller: cubit.passwordController,
                       ),
-                      Gap(20.h),
+                      Gap(16.h),
                       CustomTextFormField(
                         hintText: "Confirm Password",
                         isObscureText: true,
                         controller: cubit.conformPasswordController,
                       ),
-                      Gap(20.h),
+                      Gap(16.h),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           CustomRememberForgotWidget(val: _val),
-                          CustomText(text: "Forgot Password?", size: 15),
+                          CustomText(text: "Forgot Password?", size: 14, fontWeight: FontWeight.w500),
                         ],
                       ),
-                      Gap(20.h),
+                      Gap(24.h),
                       Row(
                         children: [
                           Expanded(
@@ -118,7 +123,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               absorbing: state is AuthLoading,
                               child: CustomButton(
                                 text: "Have an account?",
-                                textSize: 15,
+                                textSize: 14,
                                 backGroundColor: Colors.white,
                                 borderColor: AppColors.kPrimary,
                                 textColor: AppColors.kPrimary,
@@ -136,10 +141,10 @@ class _SignupScreenState extends State<SignupScreen> {
                               ),
                             ),
                           ),
-                          Gap(5.w),
+                          Gap(10.w),
                           Expanded(
                             child: state is AuthLoading
-                                ? CupertinoActivityIndicator()
+                                ? Center(child: CupertinoActivityIndicator())
                                 : CustomButton(
                                     text: "Sign up",
                                     onTap: () {
@@ -165,22 +170,46 @@ class _SignupScreenState extends State<SignupScreen> {
                       Gap(40.h),
                       Row(
                         children: [
-                          Expanded(child: Divider()),
-                          CustomText(text: " or sign in with ", size: 12, color: AppColors.kGrey),
-                          Expanded(child: Divider()),
+                          Expanded(child: Divider(color: AppColors.kBorder)),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 12.w),
+                            child: CustomText(
+                              text: "or sign in with",
+                              color: AppColors.kTextMuted,
+                              size: 13,
+                              alignment: Alignment.center,
+                            ),
+                          ),
+                          Expanded(child: Divider(color: AppColors.kBorder)),
                         ],
                       ),
-                      Gap(20.h),
+                      Gap(24.h),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: List.generate(signInWith.length, growable: true, (index) {
-                          return CircleAvatar(
-                            backgroundColor: Colors.grey.shade300,
-                            radius: 25.r,
-                            child: Center(child: SvgPicture.asset(signInWith[index], height: 35.h)),
+                          return Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10.w),
+                            child: Container(
+                              width: 56.w,
+                              height: 56.w,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(14.r),
+                                border: Border.all(color: AppColors.kBorder),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.04),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: Center(child: SvgPicture.asset(signInWith[index], height: 24.h)),
+                            ),
                           );
                         }),
                       ),
+                      Gap(20.h),
                     ],
                   ),
                 ),
@@ -207,21 +236,21 @@ class MaleFemaleWidget extends StatelessWidget {
       child: ToggleSwitch(
         centerText: true,
         radiusStyle: true,
-        minHeight: 50.h,
+        minHeight: 52.h,
         minWidth: 100.w,
         initialLabelIndex: 0,
         curve: Curves.fastEaseInToSlowEaseOut,
-        cornerRadius: 20.r,
+        cornerRadius: 14.r,
         activeFgColor: Colors.white,
-        inactiveBgColor: Colors.grey,
-        inactiveFgColor: Colors.white,
+        inactiveBgColor: AppColors.kLightGrey,
+        inactiveFgColor: AppColors.kGrey,
         totalSwitches: 2,
         labels: ['Male', 'Female'],
         icons: [Icons.male, Icons.female],
         animate: true,
         activeBgColors: [
-          [Colors.blue],
-          [Colors.pink],
+          [AppColors.kPrimary],
+          [const Color(0xffec4899)],
         ],
         onToggle: (index) {
           cubit.gender = index!;

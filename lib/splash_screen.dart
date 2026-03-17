@@ -1,11 +1,12 @@
 import 'dart:async';
+import 'package:appointment/core/constant/app_colors.dart';
 import 'package:appointment/core/utils/pref_helper.dart';
 import 'package:appointment/features/home%20screen/screens/Home_screen.dart';
 import 'package:appointment/root.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:appointment/shared/custom_text.dart';
 import 'package:appointment/features/Onboarding/screens/onBoarding_screen.dart';
+import 'package:appointment/shared/custom_text.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -64,29 +65,48 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Hero(
-          tag: 'docdoc-logo',
-          child: Material(
-            color: Colors.transparent,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FadeTransition(
-                  opacity: _fadeAnimation,
-                  child: SlideTransition(
-                    position: _logoOffset,
-                    child: SvgPicture.asset("assets/icons/splash_logo.svg"),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              AppColors.kWhite,
+              AppColors.kBackGround,
+              AppColors.kPrimary.withOpacity(0.05),
+            ],
+          ),
+        ),
+        child: Center(
+          child: Hero(
+            tag: 'docdoc-logo',
+            child: Material(
+              color: Colors.transparent,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FadeTransition(
+                    opacity: _fadeAnimation,
+                    child: SlideTransition(
+                      position: _logoOffset,
+                      child: SvgPicture.asset("assets/icons/splash_logo.svg"),
+                    ),
                   ),
-                ),
-                FadeTransition(
-                  opacity: _fadeAnimation,
-                  child: SlideTransition(
-                    position: _textOffset,
-                    child: CustomText(text: " DOCDOC", color: Colors.black, size: 50, fontWeight: FontWeight.bold),
+                  FadeTransition(
+                    opacity: _fadeAnimation,
+                    child: SlideTransition(
+                      position: _textOffset,
+                      child: CustomText(
+                        text: " DOCDOC",
+                        color: AppColors.kDarkText,
+                        size: 50,
+                        fontWeight: FontWeight.w800,
+                        alignment: Alignment.center,
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

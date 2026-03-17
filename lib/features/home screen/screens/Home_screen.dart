@@ -7,7 +7,6 @@ import 'package:appointment/features/home%20screen/data/presentation/home_cubit.
 import 'package:appointment/features/home%20screen/screens/all_doctor_speciality_screen.dart';
 import 'package:appointment/features/home%20screen/screens/all_doctors_screen.dart';
 import 'package:appointment/features/search%20doctor/screen/search_screen.dart' hide CustomDoctorCardWidget;
-import 'package:appointment/shared/custom_button.dart';
 import 'package:appointment/shared/custom_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../core/models/speciality_model.dart';
@@ -64,120 +64,182 @@ class _HomeScreenState extends State<HomeScreen> {
             return Skeletonizer(
               enabled: state is HomeLoading,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.symmetric(horizontal: 12.w),
                 child: CustomScrollView(
                   slivers: [
                     SliverAppBar(
                       automaticallyImplyLeading: false,
                       backgroundColor: AppColors.kBackGround,
+                      surfaceTintColor: Colors.transparent,
                       title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           BlocConsumer<GetUserCubit, GetUserState>(
-                            listener: (context, state) {
-                              // TODO: implement listener
-                            },
+                            listener: (context, state) {},
                             builder: (context, state) {
                               final cubit = context.read<GetUserCubit>();
                               return state is GetUserLoading
                                   ? CupertinoActivityIndicator()
                                   : state is GetUserSuccess
-                                  ? CustomText(text: "Hi ${state.userModel.name}")
+                                  ? CustomText(
+                                      text: "Hi, ${state.userModel.name} 👋",
+                                      size: 20,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.kDarkText,
+                                    )
                                   : state is GetUserFailed
                                   ? CustomText(text: state.apiError.message!)
                                   : SizedBox.shrink();
                             },
                           ),
-                          CustomText(text: "Are you okay ?", size: 15, color: AppColors.kGrey),
+                          Gap(2.h),
+                          CustomText(
+                            text: "How are you feeling today?",
+                            size: 13,
+                            color: AppColors.kTextMuted,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ],
                       ),
                       actions: [
-                        Gap(10.w),
                         GestureDetector(
                           onTap: () {
                             Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
                           },
-                          child: SvgPicture.asset("assets/icons/search-normal.svg"),
+                          child: Container(
+                            padding: EdgeInsets.all(10.r),
+                            decoration: BoxDecoration(
+                              color: AppColors.kWhite,
+                              borderRadius: BorderRadius.circular(12.r),
+                              border: Border.all(color: AppColors.kBorder),
+                            ),
+                            child: SvgPicture.asset(
+                              "assets/icons/search-normal.svg",
+                              height: 20.h,
+                              width: 20.w,
+                            ),
+                          ),
                         ),
+                        Gap(4.w),
                       ],
                     ),
+                    SliverToBoxAdapter(child: Gap(16.h)),
                     SliverToBoxAdapter(
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            child: Container(
-                              height: 148.h,
-                              decoration: BoxDecoration(color: Colors.transparent),
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            left: 0,
-                            right: 0,
-                            child: Container(
-                              height: 120.h,
-                              decoration: BoxDecoration(
-                                color: AppColors.kPrimary,
-                                borderRadius: BorderRadius.all(Radius.circular(12.r)),
+                      child: Container(
+                        height: 148.h,
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              child: Container(
+                                height: 130.h,
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    colors: [AppColors.kGradientStart, AppColors.kGradientEnd],
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                  ),
+                                  borderRadius: BorderRadius.all(Radius.circular(20.r)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppColors.kPrimary.withOpacity(0.3),
+                                      blurRadius: 20,
+                                      offset: const Offset(0, 8),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: Image.asset(
-                              "assets/images/girl.png",
-                              height: 150.h,
-                              width: 150.w,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                          Positioned(
-                            top: 55.h,
-                            left: 20.w,
-                            child: SizedBox(
-                              child: Column(
-                                children: [
-                                  CustomText(text: "Book and schedule ", color: Colors.white),
-                                  CustomText(text: "with nearest doctor ", color: Colors.white),
-                                ],
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: Image.asset(
+                                "assets/images/girl.png",
+                                height: 150.h,
+                                width: 150.w,
+                                fit: BoxFit.contain,
                               ),
                             ),
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            left: -20.w,
-                            child: Transform.scale(
-                              scale: 0.7,
-                              child: CustomButton(
+                            Positioned(
+                              top: 50.h,
+                              left: 20.w,
+                              child: SizedBox(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CustomText(
+                                      text: "Book and schedule",
+                                      color: Colors.white,
+                                      size: 17,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    CustomText(
+                                      text: "with nearest doctor",
+                                      color: Colors.white.withOpacity(0.9),
+                                      size: 15,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 12.h,
+                              left: 20.w,
+                              child: GestureDetector(
                                 onTap: () {},
-                                text: "Find Nearby",
-                                textSize: 15,
-                                backGroundColor: Colors.white,
-                                textColor: AppColors.kPrimary,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10.r),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.1),
+                                        blurRadius: 8,
+                                        offset: const Offset(0, 2),
+                                      ),
+                                    ],
+                                  ),
+                                  child: CustomText(
+                                    text: "Find Nearby",
+                                    color: AppColors.kPrimary,
+                                    size: 13,
+                                    fontWeight: FontWeight.w600,
+                                    alignment: Alignment.center,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                    SliverToBoxAdapter(child: Gap(20.h)),
+                    SliverToBoxAdapter(child: Gap(24.h)),
                     SliverPersistentHeader(
                       delegate: SpecialityHeaderDelegate(
-                        minHeight: 135.h,
-                        maxHeight: 135.h,
+                        minHeight: 100.h,
+                        maxHeight: 100.h,
                         child: Container(
-                          color: AppColors.kBackGround, // مهم عشان مايبقاش Transparent
-                          // padding: EdgeInsets.only(top: 2.h),
+                          color: AppColors.kBackGround,
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                                padding: EdgeInsets.symmetric(horizontal: 4.w),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    CustomText(text: "Doctor Speciality", color: Colors.black),
+                                    CustomText(
+                                      text: "Doctor Speciality",
+                                      size: 18,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.kDarkText,
+                                    ),
                                     GestureDetector(
                                       onTap: () {
                                         Navigator.push(
@@ -185,20 +247,26 @@ class _HomeScreenState extends State<HomeScreen> {
                                           MaterialPageRoute(builder: (context) => AllDoctorSpecialtyScreen()),
                                         );
                                       },
-                                      child: CustomText(text: "see all", size: 15),
+                                      child: CustomText(
+                                        text: "See all",
+                                        size: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: AppColors.kPrimary,
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
+                              Gap(6.h),
                               SizedBox(
-                                height: 100.h,
+                                height: 70.h,
                                 child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
                                   itemCount: SpecialityModel.specialityList.length,
                                   itemBuilder: (context, index) {
                                     final item = SpecialityModel.specialityList[index];
                                     return Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 8.w),
+                                      padding: EdgeInsets.only(right: 10.w),
                                       child: SpecialityWidget(item: item),
                                     );
                                   },
@@ -211,23 +279,34 @@ class _HomeScreenState extends State<HomeScreen> {
                       pinned: true,
                     ),
 
-                    //**********
+                    SliverToBoxAdapter(child: Gap(0.h)),
                     SliverToBoxAdapter(
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10.0.w, vertical: 0.h),
+                        padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 8.h),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Flexible(
                               flex: 3,
-                              child: CustomText(text: "Recommendation Doctor", color: Colors.black, maxLines: 1),
+                              child: CustomText(
+                                text: "Recommendation Doctor",
+                                size: 18,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.kDarkText,
+                                maxLines: 1,
+                              ),
                             ),
                             Spacer(),
                             GestureDetector(
                               onTap: () {
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => AllDoctorsScreen()));
                               },
-                              child: CustomText(text: "see all", size: 15),
+                              child: CustomText(
+                                text: "See all",
+                                size: 14,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.kPrimary,
+                              ),
                             ),
                           ],
                         ),
@@ -240,6 +319,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         return CustomDoctorCardWidget(item: item);
                       },
                     ),
+                    SliverToBoxAdapter(child: Gap(20.h)),
                   ],
                 ),
               ),

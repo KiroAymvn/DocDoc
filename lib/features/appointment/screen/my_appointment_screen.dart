@@ -7,6 +7,7 @@ import 'package:appointment/shared/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -40,31 +41,47 @@ class _MyAppointmentScreenState extends State<MyAppointmentScreen> with SingleTi
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: CustomText(text: "My Appointments", textAlign: TextAlign.center, alignment: AlignmentGeometry.center),
+        title: CustomText(
+          text: "My Appointments",
+          size: 20,
+          fontWeight: FontWeight.w700,
+          color: AppColors.kDarkText,
+          alignment: Alignment.center,
+        ),
+        centerTitle: true,
       ),
       body: Column(
         children: [
           Container(
-            height: 40.h,
-            decoration: BoxDecoration(color: AppColors.kPrimary),
+            margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+            padding: EdgeInsets.all(4.r),
+            decoration: BoxDecoration(
+              color: AppColors.kLightGrey,
+              borderRadius: BorderRadius.circular(14.r),
+            ),
             child: TabBar(
               controller: _tabController,
-              // give the indicator a decoration (color and border radius)
-              indicator: BoxDecoration(),
-              indicatorColor: Colors.red,
-              dividerColor: Colors.white,
-              indicatorAnimation: TabIndicatorAnimation.elastic,
-              automaticIndicatorColorAdjustment: true,
-
+              indicator: BoxDecoration(
+                color: AppColors.kPrimary,
+                borderRadius: BorderRadius.circular(12.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.kPrimary.withOpacity(0.3),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              indicatorSize: TabBarIndicatorSize.tab,
+              dividerColor: Colors.transparent,
               labelColor: Colors.white,
-              unselectedLabelColor: Colors.black,
+              unselectedLabelColor: AppColors.kTextMuted,
+              labelStyle: GoogleFonts.inter(fontSize: 13.sp, fontWeight: FontWeight.w600),
+              unselectedLabelStyle: GoogleFonts.inter(fontSize: 13.sp, fontWeight: FontWeight.w500),
               tabs: [
-                // first tab [you can add an icon using the icon property]
                 Tab(text: 'Upcoming'),
-
-                // second tab [you can add an icon using the icon property]
                 Tab(text: 'Completed'),
-                Tab(text: 'Upcoming'),
+                Tab(text: 'Cancelled'),
               ],
             ),
           ),
@@ -83,10 +100,9 @@ class _MyAppointmentScreenState extends State<MyAppointmentScreen> with SingleTi
                       return Skeletonizer(
                         enabled: true,
                         child: ListView.builder(
-                          padding: EdgeInsets.only(top: 20.h),
-                          itemCount: 6, // عدد البطاقات الهيكلية التي تريد ظهورها
+                          padding: EdgeInsets.only(top: 16.h),
+                          itemCount: 6,
                           itemBuilder: (context, index) {
-                            // هنا ننشئ موديل وهمي (Fake) مباشرة لغرض الرسم فقط
                             return AppointmentCard(
                               appointmentModel: AppointmentModel(
                                 id: 1,
@@ -131,7 +147,7 @@ class _MyAppointmentScreenState extends State<MyAppointmentScreen> with SingleTi
 
                     if (state is GetAppointmentSuccess) {
                       return ListView.builder(
-                        padding: EdgeInsets.only(top: 20.h),
+                        padding: EdgeInsets.only(top: 16.h),
                         itemCount: state.appointmentModelList.length,
                         itemBuilder: (context, index) {
                           return AppointmentCard(appointmentModel: state.appointmentModelList[index]);
@@ -149,10 +165,10 @@ class _MyAppointmentScreenState extends State<MyAppointmentScreen> with SingleTi
 
                 // second tab bar view widget
                 Center(
-                  child: Text('Buy Now', style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600)),
+                  child: CustomText(text: 'Completed', size: 18, fontWeight: FontWeight.w500, color: AppColors.kTextMuted, alignment: Alignment.center),
                 ),
                 Center(
-                  child: Text('Upcoming', style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600)),
+                  child: CustomText(text: 'Cancelled', size: 18, fontWeight: FontWeight.w500, color: AppColors.kTextMuted, alignment: Alignment.center),
                 ),
               ],
             ),

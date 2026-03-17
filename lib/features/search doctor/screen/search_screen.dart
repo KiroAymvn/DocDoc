@@ -5,6 +5,7 @@ import 'package:appointment/shared/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:lottie/lottie.dart';
 import '../../home screen/widgets/custom_doctor_card_widget.dart';
 import '../widgets/custom_doctor_card_widget.dart';
@@ -17,16 +18,24 @@ class SearchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.kBackGround,
-        title: CustomText(text: "Search"),
+        title: CustomText(
+          text: "Search",
+          size: 18,
+          fontWeight: FontWeight.w600,
+          color: AppColors.kDarkText,
+          alignment: Alignment.center,
+        ),
       ),
       body: SafeArea(
         child: Column(
           children: [
-            CustomTextFormField(
-              hintText: "search",
-              isSearch: true,
-              controller: context.read<SearchDoctorCubit>().searchController,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+              child: CustomTextFormField(
+                hintText: "Search for a doctor...",
+                isSearch: true,
+                controller: context.read<SearchDoctorCubit>().searchController,
+              ),
             ),
             BlocConsumer<SearchDoctorCubit, SearchDoctorState>(
               listener: (context, state) {},
@@ -40,6 +49,7 @@ class SearchScreen extends StatelessWidget {
                       ? Expanded(
                           child: ListView.builder(
                             shrinkWrap: true,
+                            padding: EdgeInsets.symmetric(horizontal: 8.w),
                             itemCount: state.doctorList.length,
                             itemBuilder: (context, index) {
                               final item = state.doctorList[index];
@@ -50,7 +60,7 @@ class SearchScreen extends StatelessWidget {
                       : state is SearchDoctorSuccess && state.doctorList.isEmpty
                       ? Expanded(
                         child: ListView(
-                                            shrinkWrap: true,
+                                        shrinkWrap: true,
                             children: [
                               Lottie.asset("assets/lottie/Empty List.json"),
                               CustomText(

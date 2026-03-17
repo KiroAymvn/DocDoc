@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import '../../../shared/custom_text.dart';
 
 import '../../../shared/custom_button.dart';
-import '../../../shared/custom_text.dart';
 import '../../../shared/logo_docdoc.dart';
 
 class OnboardingScreen extends StatelessWidget {
@@ -23,6 +23,7 @@ class OnboardingScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Gap(12.h),
             LogoDocdoc(),
 
             Gap(20.h),
@@ -37,74 +38,75 @@ class OnboardingScreen extends StatelessWidget {
                           begin: Alignment.bottomCenter,
                           end: Alignment.topCenter,
                           colors: [Colors.transparent, Colors.white],
-                          stops: [0.0, 0.8.sp], // Adjust these values to control fade intensity
+                          stops: [0.0, 0.8.sp],
                         ).createShader(bounds);
                       },
-                      blendMode: BlendMode.dstATop, // This makes the gradient mask the image
+                      blendMode: BlendMode.dstATop,
                       child: Image.asset('assets/images/splash_doctor.png', fit: BoxFit.contain, width: double.infinity),
                     ),
                   ),
                   Positioned(
                     bottom: 190.h,
-                    left: screenWidth/4,
+                    left: 0,
+                    right: 0,
                     child: CustomText(
                       text: "Best Doctor",
-                      alignment: AlignmentGeometry.center,
-                      fontWeight: FontWeight.bold,
+                      textAlign: TextAlign.center,
                       size: 30,
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.kDarkText,
+                      alignment: Alignment.center,
                     ),
                   ),
                   Positioned(
-                    bottom: 150.h,
-                    left: screenWidth/8,
+                    bottom: 155.h,
+                    left: 0,
+                    right: 0,
                     child: CustomText(
                       text: "Appointment App",
-                      alignment: AlignmentGeometry.center,
-                      fontWeight: FontWeight.bold,
-                      size: 30,
+                      textAlign: TextAlign.center,
+                      size: 28,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.kPrimary,
+                      alignment: Alignment.center,
                     ),
                   ),
                   Positioned(
-                    bottom: 120.h,
+                    bottom: 110.h,
+                    left: 0,
+                    right: 0,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+                      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
                       child: CustomText(
-                        text:
-                        "Manage and schedule all of your medical appointments easily ",
-                        size: 10,
-                        color: AppColors.kGrey,
-                        alignment: AlignmentGeometry.bottomCenter,
+                        text: "Manage and schedule all of your medical appointments easily with Docdoc to get a new experience",
                         textAlign: TextAlign.center,
+                        size: 13,
+                        color: AppColors.kTextMuted,
+                        alignment: Alignment.center,
                       ),
                     ),
                   ),
                   Positioned(
-                    bottom: 100.h,
-                    left: 70.w,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
-                      child: CustomText(
-                        text:
-                        "with Docdoc to get a new experience",
-                        size: 10,
-                        color: AppColors.kGrey,
-                        alignment: AlignmentGeometry.center,
+                    bottom: 35.h,
+                    left: 0,
+                    right: 0,
+                    child: Center(
+                      child: CustomButton(
+                        text: "Get Started",
+                        useGradient: true,
+                        onTap: () => Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => LoginScreen()),
+                        ),
                       ),
                     ),
                   ),
-                  Positioned(
-                    left: screenWidth/6,
-                    bottom: 30.h,
-                      child: CustomButton(text: "Get started",onTap:()=> Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(),)),))
-
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
     );
   }
 }
-
-

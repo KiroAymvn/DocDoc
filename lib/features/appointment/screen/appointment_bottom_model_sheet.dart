@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import '../../../core/constant/app_colors.dart';
@@ -20,9 +21,8 @@ Future<dynamic> buildShowModalBottomSheetAppointment(
   required String doctorName,
   required int doctorID,
 }) {
-  // لا حاجة لتمرير state هنا
   return showModalBottomSheet(
-    backgroundColor: AppColors.kBackGround,
+    backgroundColor: AppColors.kSurface,
     context: context,
     sheetAnimationStyle: AnimationStyle(curve: SawTooth(3), duration: Duration(seconds: 1), reverseCurve: SawTooth(1)),
     constraints: BoxConstraints(maxHeight: 600.h),
@@ -30,12 +30,13 @@ Future<dynamic> buildShowModalBottomSheetAppointment(
     isDismissible: true,
     isScrollControlled: true,
     useRootNavigator: true,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
+    ),
 
     builder: (context) {
       final cubit = context.read<AppointmentCubit>();
 
-      // استخدم context جديد هنا لتجنب التداخل
-      // 1. Wrap with BlocBuilder to listen for changes
       return BlocConsumer<AppointmentCubit, AppointmentState>(
         listener: (context, state) {
           if (state is AppointmentFailed) {
@@ -45,25 +46,31 @@ Future<dynamic> buildShowModalBottomSheetAppointment(
           else if (state is AppointmentSuccess){
             Navigator.pop(context);
             Navigator.pop(context);
-            scaffoldMessengerError(context, "Appointment Done Successfully",color: Colors.green);
+            scaffoldMessengerError(context, "Appointment Done Successfully",color: AppColors.kSuccess);
           }
         },
         builder: (context, state) {
           final cubit = context.read<AppointmentCubit>();
 
           return Padding(
-            padding: EdgeInsets.all(8.sp),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
                 Gap(5.h),
-                CustomText(text: doctorName, alignment: AlignmentGeometry.center, fontWeight: FontWeight.bold),
+                CustomText(
+                  text: doctorName,
+                  size: 18,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.kDarkText,
+                  alignment: Alignment.center,
+                ),
                 CustomDivider(),
-                CustomText(text: "Select Date", color: Colors.black, fontWeight: FontWeight.bold),
+                CustomText(text: "Select Date", color: AppColors.kDarkText, fontWeight: FontWeight.w600),
+                Gap(8.h),
                 EasyDateTimeLinePicker.itemBuilder(
                   controller: cubit.controller,
                   focusedDate: cubit.dateTime,
-                  // اجعل هذا ديناميكياً بناءً على اختيارك
                   firstDate: DateTime.now(),
                   lastDate: DateTime(2030, 3, 18),
                   itemExtent: 60.w,
@@ -71,8 +78,6 @@ Future<dynamic> buildShowModalBottomSheetAppointment(
                   itemBuilder: (context, date, isSelected, isDisabled, isToday, onTap) {
                     final String dayName = DateFormat("EEE").format(date);
 
-                    // مقارنة التاريخ الحالي بالتاريخ المختار في الـ Cubit
-                    // نستخدم isSameDay للتأكد من تجاهل الوقت (الساعات والدقائق)
                     bool isDaySelected =
                         date.year == cubit.dateTime?.year &&
                         date.month == cubit.dateTime?.month &&
@@ -80,17 +85,25 @@ Future<dynamic> buildShowModalBottomSheetAppointment(
 
                     return GestureDetector(
                       onTap: () {
-                        // 2. Call a method that emits a state
                         cubit.changeDate(date);
                         print(date);
                       },
                       child: SizedBox(
-                        height: 40, // تأكد من الارتفاع المناسب
+                        height: 40,
                         child: Container(
                           decoration: BoxDecoration(
-                            // التغيير سيحدث الآن لأن BlocBuilder سيعيد بناء الواجهة
-                            color: isDaySelected ? AppColors.kPrimary : Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(12.r)),
+                            color: isDaySelected ? AppColors.kPrimary : AppColors.kWhite,
+                            borderRadius: BorderRadius.all(Radius.circular(14.r)),
+                            border: isDaySelected ? null : Border.all(color: AppColors.kBorder),
+                            boxShadow: isDaySelected
+                                ? [
+                                    BoxShadow(
+                                      color: AppColors.kPrimary.withOpacity(0.3),
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ]
+                                : null,
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -98,18 +111,17 @@ Future<dynamic> buildShowModalBottomSheetAppointment(
                             children: [
                               CustomText(
                                 text: dayName,
-                                color: isDaySelected ? Colors.white : Colors.black,
-                                // تغيير لون النص أيضاً
-                                alignment: AlignmentGeometry.center,
-                                size: 15,
-                                fontWeight: FontWeight.bold,
+                                color: isDaySelected ? Colors.white : AppColors.kTextMuted,
+                                size: 13,
+                                fontWeight: FontWeight.w500,
+                                alignment: Alignment.center,
                               ),
                               CustomText(
                                 text: date.day.toString(),
-                                color: isDaySelected ? Colors.white : Colors.black,
-                                alignment: AlignmentGeometry.center,
-                                size: 15,
-                                fontWeight: FontWeight.bold,
+                                color: isDaySelected ? Colors.white : AppColors.kDarkText,
+                                size: 16,
+                                fontWeight: FontWeight.w700,
+                                alignment: Alignment.center,
                               ),
                             ],
                           ),
@@ -119,7 +131,6 @@ Future<dynamic> buildShowModalBottomSheetAppointment(
                   },
                   onDateChange: (date) {
                     print("object");
-                    // يمكنك استخدام هذا أيضاً بدلاً من onTap في GestureDetector
                     cubit.changeDate(date);
                   },
                 ),
@@ -138,12 +149,26 @@ Future<dynamic> buildShowModalBottomSheetAppointment(
                       },
                       child: Row(
                         children: [
-                          CustomText(text: "Select Time", color: Colors.black, fontWeight: FontWeight.bold),
-                          Icon(CupertinoIcons.clock),
+                          CustomText(text: "Select Time", color: AppColors.kDarkText, fontWeight: FontWeight.w600),
+                          SizedBox(width: 6.w),
+                          Icon(CupertinoIcons.clock, color: AppColors.kPrimary, size: 20.sp),
                         ],
                       ),
                     ),
-                    CustomText(text: cubit.timeOfDay!.format(context).toString()),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                      decoration: BoxDecoration(
+                        color: AppColors.kPrimary.withOpacity(0.08),
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                      child: CustomText(
+                        text: cubit.timeOfDay!.format(context).toString(),
+                        color: AppColors.kPrimary,
+                        size: 14,
+                        fontWeight: FontWeight.w600,
+                        alignment: Alignment.center,
+                      ),
+                    ),
                   ],
                 ),
                 CustomDivider(),
@@ -152,11 +177,11 @@ Future<dynamic> buildShowModalBottomSheetAppointment(
                   height: 100.h,
                   child: CustomTextFormField(hintText: "Notes", isExpand: true),
                 ),
-                Gap(10.h),
+                Gap(12.h),
                 state is AppointmentLoading
                     ? Lottie.asset("assets/lottie/Trail_loading.json", height: 50.h)
                     : CustomButton(
-                        text: "Appointment",
+                        text: "Book Appointment",
                         onTap: () {
                           final String time = cubit.formatTime24H(cubit.timeOfDay ?? TimeOfDay.now());
                           final String appointmentTime = "${cubit.dateTime.toString().substring(0, 10)} $time";

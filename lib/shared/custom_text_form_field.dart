@@ -12,7 +12,7 @@ class CustomTextFormField extends StatelessWidget {
     this.color = Colors.white,
     super.key,
     required this.hintText,
-    this.textColor = AppColors.kPrimary,
+    this.textColor = AppColors.kDarkText,
     this.controller,
     this.readOnly = false,
     this.textInputType = TextInputType.name,
@@ -71,32 +71,42 @@ class CustomTextFormField extends StatelessWidget {
           },
           keyboardType: textInputType,
           decoration: InputDecoration(
-            contentPadding: EdgeInsetsGeometry.symmetric(vertical: 15.h, horizontal: 10.h),
+            contentPadding: EdgeInsetsGeometry.symmetric(vertical: 16.h, horizontal: 16.w),
             filled: true,
             fillColor: color,
             hintText: hintText,
-            hintStyle: GoogleFonts.inter(color: AppColors.kGrey, fontSize: 15.sp),
+            hintStyle: GoogleFonts.inter(color: AppColors.kTextMuted, fontSize: 14.sp),
             suffixIcon: isObscureText
                 ? GestureDetector(
                     onTap: () {
                       _val.value = !_val.value;
                       print(_val.value);
                     },
-                    child: _val.value ? Icon(CupertinoIcons.eye) : Icon(CupertinoIcons.eye_slash),
+                    child: _val.value
+                        ? Icon(CupertinoIcons.eye, color: AppColors.kTextMuted, size: 20.sp)
+                        : Icon(CupertinoIcons.eye_slash, color: AppColors.kPrimary, size: 20.sp),
                   )
                 : null,
 
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(12.r)),
-              borderSide: BorderSide(color: Colors.transparent),
+              borderRadius: BorderRadius.all(Radius.circular(14.r)),
+              borderSide: BorderSide(color: AppColors.kBorder),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(12.r)),
-              borderSide: BorderSide(color: Colors.transparent),
+              borderRadius: BorderRadius.all(Radius.circular(14.r)),
+              borderSide: BorderSide(color: AppColors.kPrimary, width: 1.5),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(14.r)),
+              borderSide: BorderSide(color: AppColors.kError),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(14.r)),
+              borderSide: BorderSide(color: AppColors.kError, width: 1.5),
             ),
           ),
           cursorColor: AppColors.kPrimary,
-          style: GoogleFonts.inter(color: textColor),
+          style: GoogleFonts.inter(color: textColor, fontSize: 15.sp),
         );
       },
     );

@@ -15,13 +15,13 @@ class CustomDivider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Gap(5.h),
+        Gap(8.h),
         Divider(
           indent: ScreenSize.screenWidth(context) / 6,
           endIndent: ScreenSize.screenWidth(context) / 6,
-          color: AppColors.kGrey,
+          color: AppColors.kBorder,
         ),
-        Gap(5.h),
+        Gap(8.h),
       ],
     );
   }

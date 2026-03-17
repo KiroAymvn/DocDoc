@@ -16,6 +16,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'features/appointment/data/presentation/appointment_cubit.dart';
 import 'features/profile screen/data/presentation/get user cubit/get_user_cubit.dart';
@@ -86,7 +87,93 @@ return ScreenUtilInit(
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
       debugShowCheckedModeBanner: false,
-     theme: ThemeData(scaffoldBackgroundColor: AppColors.kBackGround,
+     theme: ThemeData(
+       scaffoldBackgroundColor: AppColors.kBackGround,
+       primaryColor: AppColors.kPrimary,
+       colorScheme: ColorScheme.fromSeed(
+         seedColor: AppColors.kPrimary,
+         surface: AppColors.kSurface,
+         error: AppColors.kError,
+       ),
+       appBarTheme: AppBarTheme(
+         elevation: 0,
+         scrolledUnderElevation: 0,
+         backgroundColor: AppColors.kBackGround,
+         surfaceTintColor: Colors.transparent,
+         centerTitle: true,
+         iconTheme: IconThemeData(color: AppColors.kDarkText),
+         titleTextStyle: GoogleFonts.inter(
+           color: AppColors.kDarkText,
+           fontSize: 18,
+           fontWeight: FontWeight.w600,
+         ),
+       ),
+       cardTheme: CardThemeData(
+         elevation: 0,
+         shape: RoundedRectangleBorder(
+           borderRadius: BorderRadius.circular(16),
+         ),
+         color: AppColors.kWhite,
+       ),
+       elevatedButtonTheme: ElevatedButtonThemeData(
+         style: ElevatedButton.styleFrom(
+           backgroundColor: AppColors.kPrimary,
+           foregroundColor: Colors.white,
+           elevation: 0,
+           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+           shape: RoundedRectangleBorder(
+             borderRadius: BorderRadius.circular(14),
+           ),
+           textStyle: GoogleFonts.inter(
+             fontSize: 16,
+             fontWeight: FontWeight.w600,
+           ),
+         ),
+       ),
+       outlinedButtonTheme: OutlinedButtonThemeData(
+         style: OutlinedButton.styleFrom(
+           foregroundColor: AppColors.kPrimary,
+           side: const BorderSide(color: AppColors.kPrimary, width: 1.5),
+           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+           shape: RoundedRectangleBorder(
+             borderRadius: BorderRadius.circular(14),
+           ),
+           textStyle: GoogleFonts.inter(
+             fontSize: 16,
+             fontWeight: FontWeight.w600,
+           ),
+         ),
+       ),
+       inputDecorationTheme: InputDecorationTheme(
+         filled: true,
+         fillColor: AppColors.kWhite,
+         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+         border: OutlineInputBorder(
+           borderRadius: BorderRadius.circular(14),
+           borderSide: BorderSide(color: AppColors.kBorder),
+         ),
+         enabledBorder: OutlineInputBorder(
+           borderRadius: BorderRadius.circular(14),
+           borderSide: BorderSide(color: AppColors.kBorder),
+         ),
+         focusedBorder: OutlineInputBorder(
+           borderRadius: BorderRadius.circular(14),
+           borderSide: BorderSide(color: AppColors.kPrimary, width: 1.5),
+         ),
+         errorBorder: OutlineInputBorder(
+           borderRadius: BorderRadius.circular(14),
+           borderSide: BorderSide(color: AppColors.kError),
+         ),
+         hintStyle: GoogleFonts.inter(
+           color: AppColors.kTextMuted,
+           fontSize: 14,
+         ),
+       ),
+       textTheme: GoogleFonts.interTextTheme(),
+       dividerTheme: DividerThemeData(
+         color: AppColors.kBorder,
+         thickness: 1,
+       ),
      ),
 
       home: SplashScreen(),

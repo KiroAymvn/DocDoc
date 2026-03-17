@@ -203,15 +203,11 @@ class AboutDoctorScreen extends StatelessWidget {
                           fontWeight: FontWeight.w700,
                         ),
                         Gap(10.h),
-                        Text(
-                          doctor.description,
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            color: Colors.grey.shade600,
-                            height: 1.6, // Better readability
-                          ),
+                        CustomText(
+                          text: doctor.description,
+                          size: 14,
+                          color: Colors.grey.shade600,
                           maxLines: 4,
-                          overflow: TextOverflow.ellipsis,
                         ),
                       ],
                     ),
@@ -286,17 +282,16 @@ class AboutDoctorScreen extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "Price",
-                          style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+                        CustomText(
+                          text: "Price",
+                          size: 12,
+                          color: Colors.grey,
                         ),
-                        Text(
-                          "\$${doctor.appointPrice}",
-                          style: TextStyle(
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.black87,
-                          ),
+                        CustomText(
+                          text: "\$${doctor.appointPrice}",
+                          size: 20,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.black87,
                         ),
                       ],
                     ),
@@ -327,13 +322,12 @@ class AboutDoctorScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(16.r),
                               ),
                             ),
-                            child: const Text(
-                              "Appointment",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
+                            child: CustomText(
+                              text: "Appointment",
+                              size: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              alignment: Alignment.center,
                             ),
                           ),
                         );
@@ -371,23 +365,20 @@ class AboutDoctorScreen extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 20.sp,
-            fontWeight: FontWeight.w800, // Thicker font
-            color: Colors.black87,
-            letterSpacing: -0.5,
-          ),
+        CustomText(
+          text: value,
+          size: 20,
+          fontWeight: FontWeight.w800,
+          color: Colors.black87,
+          alignment: Alignment.center,
         ),
         Gap(4.h),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w500,
-            color: Colors.grey.shade500,
-          ),
+        CustomText(
+          text: label,
+          size: 12,
+          fontWeight: FontWeight.w500,
+          color: Colors.grey.shade500,
+          alignment: Alignment.center,
         ),
       ],
     );
@@ -422,24 +413,19 @@ class AboutDoctorScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    color: Colors.grey.shade500,
-                    fontWeight: FontWeight.w500,
-                  ),
+                CustomText(
+                  text: title,
+                  size: 12,
+                  color: Colors.grey.shade500,
+                  fontWeight: FontWeight.w500,
                 ),
                 Gap(2.h),
-                Text(
-                  subtitle,
-                  style: TextStyle(
-                    fontSize: 15.sp,
-                    color: Colors.black87,
-                    fontWeight: FontWeight.w600,
-                  ),
+                CustomText(
+                  text: subtitle,
+                  size: 15,
+                  color: Colors.black87,
+                  fontWeight: FontWeight.w600,
                   maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),

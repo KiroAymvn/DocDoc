@@ -3,6 +3,7 @@ import 'package:appointment/features/profile%20screen/data/presentation/get%20us
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../shared/custom_text.dart';
 import 'package:lottie/lottie.dart';
 
 // Imports of your provided files
@@ -10,7 +11,6 @@ import '../../../core/constant/app_colors.dart';
 import '../../../core/models/user_model.dart';
 import '../../../shared/custom_button.dart';
 import '../../../shared/custom_scaffold_messanger.dart';
-import '../../../shared/custom_text.dart';
 import '../../../shared/custom_text_form_field.dart';
 import '../../auth/widgets/custom_dialog_widget.dart';
 
@@ -67,13 +67,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           icon: const Icon(Icons.arrow_back_ios, color: AppColors.kPrimary),
           onPressed: () => Navigator.pop(context),
         ),
-        title: CustomText(text: "Edit Profile", size: 18, fontWeight: FontWeight.bold, color: Colors.black),
+        title: CustomText(
+          text: "Edit Profile",
+          size: 18,
+          fontWeight: FontWeight.w600,
+          color: AppColors.kDarkText,
+          alignment: Alignment.center,
+        ),
       ),
       body: BlocConsumer<GetUserCubit, GetUserState>(
         listener: (context, state) {
           if (state is GetUserSuccess) {
             Navigator.pop(context);
-            scaffoldMessengerError(context, "Profile Updated successfully");
+            scaffoldMessengerError(context, "Profile Updated successfully", color: AppColors.kSuccess);
           }
 
           if (state is GetUserFailed) {
@@ -87,7 +93,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         builder: (context, state) {
           final cubit = context.read<GetUserCubit>();
           return SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
             child: Form(
               key: _formKey,
               child: Column(
@@ -102,31 +108,36 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         height: 100.w,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          border: Border.all(color: AppColors.kPrimary, width: 2),
+                          border: Border.all(color: AppColors.kPrimary.withOpacity(0.3), width: 3),
                           image: const DecorationImage(
-                            // Placeholder image - replace with user image
                             image: AssetImage('assets/images/man1.png'),
                             fit: BoxFit.cover,
                           ),
                         ),
                       ),
                       Container(
-                        height: 30.w,
-                        width: 30.w,
-                        decoration: const BoxDecoration(color: AppColors.kPrimary, shape: BoxShape.circle),
+                        height: 32.w,
+                        width: 32.w,
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [AppColors.kGradientStart, AppColors.kGradientEnd],
+                          ),
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white, width: 2.5),
+                        ),
                         child: Icon(Icons.camera_alt_rounded, color: Colors.white, size: 16.sp),
                       ),
                     ],
                   ),
 
-                  SizedBox(height: 40.h),
+                  SizedBox(height: 36.h),
 
                   // --- 2. Form Fields ---
 
                   // Name
                   _buildLabel("Full Name"),
                   CustomTextFormField(
-                    hintText: "Name", // Must match logic in your widget
+                    hintText: "Name",
                     controller: _nameController,
                     textInputType: TextInputType.name,
                   ),
@@ -135,7 +146,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   // Email
                   _buildLabel("Email Address"),
                   CustomTextFormField(
-                    hintText: "Email", // Triggers @gmail.com validation in your widget
+                    hintText: "Email",
                     controller: _emailController,
                     textInputType: TextInputType.emailAddress,
                   ),
@@ -159,11 +170,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   SizedBox(height: 16.h),
 
                   // Gender
-                  SizedBox(height: 50.h),
+                  SizedBox(height: 40.h),
 
                   // --- 3. Update Button ---
                    SizedBox(
-                          width: double.infinity, // make button full width
+                          width: double.infinity,
                           child: state is GetUserLoading
                               ? Lottie.asset("assets/lottie/Trail_loading.json",height: 50.h)
                               : CustomButton(
@@ -194,7 +205,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget _buildLabel(String label) {
     return Padding(
       padding: EdgeInsets.only(bottom: 8.h, left: 4.w),
-      child: CustomText(text: label, size: 14, color: AppColors.kGrey, alignment: Alignment.centerLeft),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: CustomText(
+          text: label,
+          size: 13,
+          color: AppColors.kTextMuted,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
     );
   }
 }

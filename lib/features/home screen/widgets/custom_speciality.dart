@@ -16,28 +16,38 @@ class SpecialityWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 80.h, // 🔥 مهم جدًا
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircleAvatar(
-            backgroundColor: AppColors.kPrimary.withOpacity(0.25),
-            radius: 28.r,
-            child: Image.asset(
-              item.specialityImage ?? "",
-              height: 28.h,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          padding: EdgeInsets.all(12.r),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                AppColors.kPrimary.withOpacity(0.12),
+                AppColors.kPrimary.withOpacity(0.06),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
+            shape: BoxShape.circle,
           ),
-          Gap(6.h),
-          CustomText(
-            text: item.specialityName,
-            size: 10,
-            maxLines: 1, // 🔥
-            alignment: Alignment.center,
+          child: Image.asset(
+            item.specialityImage ?? "",
+            height: 24.h,
+            width: 24.w,
           ),
-        ],
-      ),
+        ),
+        Gap(6.h),
+        CustomText(
+          text: item.specialityName,
+          size: 10,
+          maxLines: 1,
+          color: AppColors.kDarkText,
+          alignment: Alignment.center,
+          fontWeight: FontWeight.w500,
+        ),
+      ],
     );
   }
 }

@@ -14,7 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 import '../../../shared/custom_text_form_field.dart';
 import '../widgets/custom_dialog_widget.dart';
@@ -53,42 +53,47 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Scaffold(
               body: SafeArea(
                 child: Padding(
-                  padding: EdgeInsetsGeometry.all(ScreenSize.screenWidth(context) * 0.040),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: ScreenSize.screenWidth(context) * 0.050,
+                    vertical: ScreenSize.screenWidth(context) * 0.020,
+                  ),
                   child: ListView(
                     children: [
+                      Gap(10.h),
                       LogoDocdoc(),
-                      Gap(25.h),
-                      CustomText(text: "Welcome Back", size: 25, fontWeight: FontWeight.bold),
+                      Gap(30.h),
+                      CustomText(text: "Welcome Back", size: 26, fontWeight: FontWeight.bold, color: AppColors.kDarkText),
+                      Gap(8.h),
                       CustomText(
                         text:
                             "We're excited to have you back, can't wait to see what you've been up to since you last logged in.",
-                        size: 15,
-                        color: AppColors.kGrey,
+                        size: 14,
+                        color: AppColors.kTextMuted,
                         textAlign: TextAlign.left,
                       ),
-                      Gap(25.h),
+                      Gap(30.h),
                       CustomTextFormField(hintText: "email", controller: cubit.loginEmailController),
-                      Gap(20.h),
+                      Gap(16.h),
                       CustomTextFormField(
                         hintText: "password",
                         controller: cubit.loginPasswordController,
                         isObscureText: true,
                       ),
-                      Gap(20.h),
+                      Gap(16.h),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           CustomRememberForgotWidget(val: _val),
-                          CustomText(text: "Forgot Password?", size: 15),
+                          CustomText(text: "Forgot Password?", size: 14, fontWeight: FontWeight.w500),
                         ],
                       ),
-                      Gap(20.h),
+                      Gap(24.h),
                       Row(
                         children: [
                           Expanded(
                             child: CustomButton(
                               text: "Create Account",
-                              textSize: 15,
+                              textSize: 14,
                               backGroundColor: Colors.white,
                               borderColor: AppColors.kPrimary,
                               textColor: AppColors.kPrimary,
@@ -98,12 +103,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                           ),
-                          Gap(5.w),
+                          Gap(10.w),
                           Expanded(
                             child: state is AuthLoading
-                                ? CupertinoActivityIndicator()
+                                ? Center(child: CupertinoActivityIndicator())
                                 : CustomButton(
-                                    text: "login",
+                                    text: "Login",
                                     onTap: () {
                                       if (_formKey.currentState!.validate()) {
                                         cubit.login(
@@ -119,22 +124,46 @@ class _LoginScreenState extends State<LoginScreen> {
                       Gap(40.h),
                       Row(
                         children: [
-                          Expanded(child: Divider()),
-                          CustomText(text: " or sign in with ", size: 12, color: AppColors.kGrey),
-                          Expanded(child: Divider()),
+                          Expanded(child: Divider(color: AppColors.kBorder)),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 12.w),
+                            child: CustomText(
+                              text: "or sign in with",
+                              color: AppColors.kTextMuted,
+                              size: 13,
+                              alignment: Alignment.center,
+                            ),
+                          ),
+                          Expanded(child: Divider(color: AppColors.kBorder)),
                         ],
                       ),
-                      Gap(20.h),
+                      Gap(24.h),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: List.generate(signInWith.length, growable: true, (index) {
-                          return CircleAvatar(
-                            backgroundColor: Colors.grey.shade300,
-                            radius: 25.r,
-                            child: Center(child: SvgPicture.asset(signInWith[index], height: 35.h)),
+                          return Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10.w),
+                            child: Container(
+                              width: 56.w,
+                              height: 56.w,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(14.r),
+                                border: Border.all(color: AppColors.kBorder),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.04),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: Center(child: SvgPicture.asset(signInWith[index], height: 24.h)),
+                            ),
                           );
                         }),
                       ),
+                      Gap(20.h),
                     ],
                   ),
                 ),

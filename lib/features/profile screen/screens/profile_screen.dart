@@ -1,13 +1,12 @@
 import 'dart:math';
 
 import 'package:appointment/core/constant/app_colors.dart';
-import 'package:appointment/core/constant/screen_size.dart';
+
 import 'package:appointment/core/models/user_model.dart';
 import 'package:appointment/features/profile%20screen/data/presentation/get%20user%20cubit/get_user_cubit.dart';
 import 'package:appointment/features/profile%20screen/data/presentation/logout/logout_cubit.dart';
 import 'package:appointment/features/profile%20screen/screens/update_screen.dart';
-import 'package:appointment/shared/custom_button.dart';
-import 'package:appointment/shared/custom_text.dart';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,6 +15,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:appointment/shared/custom_text.dart';
 import 'package:lottie/lottie.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -66,20 +66,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       : null;
                 },
                 child: Padding(
-                  padding: EdgeInsets.only(right: ScreenSize.screenWidth(context) * 0.05),
-                  child: SvgPicture.asset("assets/icons/edit-2.svg"),
+                  padding: EdgeInsets.only(right: 16.w),
+                  child: Container(
+                    padding: EdgeInsets.all(8.r),
+                    decoration: BoxDecoration(
+                      color: AppColors.kWhite,
+                      borderRadius: BorderRadius.circular(10.r),
+                      border: Border.all(color: AppColors.kBorder),
+                    ),
+                    child: SvgPicture.asset("assets/icons/edit-2.svg", height: 20.h),
+                  ),
                 ),
               );
             },
           ),
         ],
-        backgroundColor: AppColors.kBackGround,
-        centerTitle: true,
         title: CustomText(
-          text: "Personal information",
-          alignment: AlignmentGeometry.centerLeft,
-          textAlign: TextAlign.center,
-          color: Colors.black,
+          text: "Personal Information",
+          size: 18,
+          fontWeight: FontWeight.w600,
+          color: AppColors.kDarkText,
+          alignment: Alignment.center,
         ),
       ),
       body: BlocConsumer<GetUserCubit, GetUserState>(
@@ -94,86 +101,104 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Gap(20.h),
-                  // Lottie.asset("assets/lottie/Trail_loading.json"),
-                  Skeleton.ignore(
-                    child: SizedBox(
-                      width: 100.w,
-                      height: 100.h,
-                      child: ClipRect(
-                        child: CachedNetworkImage(
-                          width: 100.h,
-                          height: 100.h,
-                          imageUrl:
-                              "https://th.bing.com/th/id/R.1e421b84ef27a47cbfd13d9537d7d37b?rik=5HacnClWK%2bURSg&pid=ImgRaw&r=0",
-                          imageBuilder: (context, imageProvider) {
-                            return Container(
-                              width: 100.h,
-                              height: 100.h,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: AppColors.kGrey.withOpacity(0.25),
-                                image: DecorationImage(image: imageProvider, fit: BoxFit.contain),
-                              ),
-                            );
-                          },
-                          progressIndicatorBuilder: (context, url, progress) {
-                            return SizedBox(
-                              width: 100.h,
-                              height: 100.h,
-                              child: Center(
-                                child: Lottie.asset("assets/lottie/Trail_loading.json", width: 40.h, height: 40.h),
-                              ),
-                            );
-                          },
-                          errorWidget: (context, url, error) => SizedBox(
-                            width: 100.h,
-                            height: 100.h,
-                            child: const Center(child: Icon(Icons.error)),
-                          ),
-                        ),
+                  // Gradient header
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.only(top: 20.h, bottom: 28.h),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          AppColors.kPrimary.withOpacity(0.06),
+                          AppColors.kBackGround,
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
                       ),
                     ),
+                    child: Column(
+                      children: [
+                        Skeleton.ignore(
+                          child: SizedBox(
+                            width: 100.w,
+                            height: 100.h,
+                            child: ClipRect(
+                              child: CachedNetworkImage(
+                                width: 100.h,
+                                height: 100.h,
+                                imageUrl:
+                                    "https://th.bing.com/th/id/R.1e421b84ef27a47cbfd13d9537d7d37b?rik=5HacnClWK%2bURSg&pid=ImgRaw&r=0",
+                                imageBuilder: (context, imageProvider) {
+                                  return Container(
+                                    width: 100.h,
+                                    height: 100.h,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: AppColors.kLightGrey,
+                                      border: Border.all(color: AppColors.kPrimary.withOpacity(0.3), width: 3),
+                                      image: DecorationImage(image: imageProvider, fit: BoxFit.contain),
+                                    ),
+                                  );
+                                },
+                                progressIndicatorBuilder: (context, url, progress) {
+                                  return SizedBox(
+                                    width: 100.h,
+                                    height: 100.h,
+                                    child: Center(
+                                      child: Lottie.asset("assets/lottie/Trail_loading.json", width: 40.h, height: 40.h),
+                                    ),
+                                  );
+                                },
+                                errorWidget: (context, url, error) => SizedBox(
+                                  width: 100.h,
+                                  height: 100.h,
+                                  child: const Center(child: Icon(Icons.error)),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Gap(12.h),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CustomText(
+                              text: state is GetUserSuccess ? state.userModel.name : "",
+                              size: 22,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.kDarkText,
+                              alignment: Alignment.center,
+                            ),
+                            Gap(6.w),
+                            Icon(Icons.male, color: AppColors.kPrimary, size: 22.sp),
+                          ],
+                        ),
+                        Gap(4.h),
+                        CustomText(
+                          text: "PATIENT ID : ${state is GetUserSuccess ? state.userModel.id : ""}",
+                          size: 13,
+                          color: AppColors.kTextMuted,
+                          fontWeight: FontWeight.w400,
+                          alignment: Alignment.center,
+                        ),
+                      ],
+                    ),
                   ),
-                  Gap(10.h),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CustomText(
-                        text: state is GetUserSuccess ? state.userModel.name : "",
-                        alignment: AlignmentGeometry.center,
-                        size: 25,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      Gap(5.w),
-                      Icon(Icons.male, color: AppColors.kPrimary),
-                    ],
-                  ),
-                  Gap(5.h),
-                  CustomText(
-                    text: "PATIENT ID : ${state is GetUserSuccess ? state.userModel.id : ""}",
-                    alignment: AlignmentGeometry.center,
-                    size: 15,
-                    color: AppColors.kGrey,
-                    fontWeight: FontWeight.normal,
-                  ),
-                  Gap(20.h),
+                  Gap(8.h),
                   CustomUserDataListTile(
                     title: "Email address",
                     subTitle: state is GetUserSuccess ? state.userModel.email : "",
                     icon: CupertinoIcons.mail_solid,
                   ),
                   CustomUserDataListTile(
-                    title: "phone Number",
+                    title: "Phone Number",
                     subTitle: state is GetUserSuccess ? state.userModel.phone : "",
                     icon: CupertinoIcons.phone_fill,
                   ),
                   CustomUserDataListTile(
                     title: "Password",
                     subTitle: passObsc("521312"),
-                    icon: CupertinoIcons.phone_fill,
+                    icon: CupertinoIcons.lock_fill,
                   ),
                   Gap(30.h),
                   BlocConsumer<LogoutCubit, LogoutState>(
@@ -191,16 +216,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       }
                     },
                     builder: (context, state) {
-                      return CustomButton(
-                        text: "Sign out",
-                        onTap: () {
-                          SignoutDialog(context, state, onPressed).show();
-                        },
-                        backGroundColor: Colors.redAccent,
-                        textColor: Colors.white,
+                      return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 24.w),
+                        child: GestureDetector(
+                          onTap: () {
+                            SignoutDialog(context, state, onPressed).show();
+                          },
+                          child: Container(
+                            width: 250.w,
+                            height: 52.h,
+                            decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              borderRadius: BorderRadius.circular(14.r),
+                              border: Border.all(color: AppColors.kError, width: 1.5),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.logout_rounded, color: AppColors.kError, size: 20.sp),
+                                SizedBox(width: 8.w),
+                                CustomText(
+                                  text: "Sign out",
+                                  color: AppColors.kError,
+                                  size: 16,
+                                  fontWeight: FontWeight.w600,
+                                  alignment: Alignment.center,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       );
                     },
                   ),
+                  Gap(24.h),
                 ],
               ),
             ),

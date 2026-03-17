@@ -3,6 +3,7 @@ import 'package:appointment/features/appointment/data/model/appointment_model.da
 import 'package:appointment/features/appointment/data/model/date_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../core/constant/app_colors.dart';
 import '../../../shared/custom_button.dart';
 import '../../../shared/custom_text.dart';
@@ -19,32 +20,37 @@ class AppointmentCard extends StatelessWidget {
     final DoctorModel doctor = appointmentModel.doctor;
     final String notes = appointmentModel.notes;
     return Container(
-      margin: EdgeInsets.only(bottom: 16.h, left: 20.w, right: 20.w), // مسافات خارجية
-      padding: EdgeInsets.all(16.w), // مسافة داخلية للمحتوى
+      margin: EdgeInsets.only(bottom: 14.h, left: 16.w, right: 16.w),
+      padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16.r),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 5))],
+        borderRadius: BorderRadius.circular(18.r),
+        border: Border.all(color: AppColors.kBorder.withOpacity(0.5)),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.kCardShadow.withOpacity(0.06),
+            blurRadius: 16,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // === الجزء العلوي: بيانات الطبيب ===
+          // Top section: doctor info
           Row(
             children: [
-              // 1. صورة الطبيب
               Container(
-                width: 65.w,
-                height: 65.w,
+                width: 60.w,
+                height: 60.w,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.r),
-                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(14.r),
+                  color: AppColors.kLightGrey,
                   image: const DecorationImage(image: AssetImage('assets/images/man1.png'), fit: BoxFit.cover),
                 ),
               ),
               SizedBox(width: 12.w),
 
-              // 2. النصوص (الاسم والتخصص)
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,81 +58,83 @@ class AppointmentCard extends StatelessWidget {
                     CustomText(
                       text: doctor.name,
                       size: 16,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w700,
                       alignment: Alignment.centerLeft,
-                      color: Colors.black,
+                      color: AppColors.kDarkText,
                     ),
-                    SizedBox(height: 4.h),
+                    SizedBox(height: 3.h),
                     CustomText(
                       text: doctor.specialization.specialityName,
-                      size: 14,
-                      color: AppColors.kGrey,
+                      size: 13,
+                      color: AppColors.kTextMuted,
                       alignment: Alignment.centerLeft,
                     ),
-                    SizedBox(height: 8.h),
-                    CustomText(
-                      text: "${date["dayName"]} , ${date["dayDate"]} ${date["monthName"]}  |  ${date["time"]}",
-                      size: 14,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.kGrey,
-                      alignment: Alignment.centerLeft,
+                    SizedBox(height: 6.h),
+                    Row(
+                      children: [
+                        Icon(Icons.calendar_today_rounded, size: 14.sp, color: AppColors.kPrimary),
+                        SizedBox(width: 4.w),
+                        Expanded(
+                          child: CustomText(
+                            text: "${date["dayName"]} , ${date["dayDate"]} ${date["monthName"]}  |  ${date["time"]}",
+                            size: 12,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.kGrey,
+                            maxLines: 1,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
               ),
 
-              // 3. أيقونة المحادثة
               Container(
-                padding: EdgeInsets.all(8.w),
+                padding: EdgeInsets.all(10.w),
                 decoration: BoxDecoration(
-                  color: Colors.blue.withOpacity(0.1), // لون خلفية خفيف
+                  color: AppColors.kPrimary.withOpacity(0.08),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   Icons.chat_bubble_outline_rounded,
-                  color: AppColors.kPrimary, // أو Colors.blue
-                  size: 20.sp,
+                  color: AppColors.kPrimary,
+                  size: 18.sp,
                 ),
               ),
             ],
           ),
 
-          SizedBox(height: 16.h),
+          SizedBox(height: 14.h),
 
-          // === الخط الفاصل ===
-          Divider(color: Colors.grey[200], thickness: 1),
+          // Divider
+          Divider(color: AppColors.kBorder, thickness: 1),
 
-          SizedBox(height: 16.h),
+          SizedBox(height: 14.h),
 
-          // === الجزء السفلي: الأزرار ===
+          // Bottom: Buttons
           Row(
             children: [
-              // زر الإلغاء (Border only)
               Expanded(
                 child: SizedBox(
-                  height: 45.h, // تحديد ارتفاع للزر ليتناسب مع التصميم
+                  height: 44.h,
                   child: CustomButton(
-                    text: "Cancel Appointment",
-                    textSize: 12,
-                    // تصغير الخط ليتناسب
+                    text: "Cancel",
+                    textSize: 13,
                     backGroundColor: Colors.transparent,
                     textColor: AppColors.kPrimary,
-                    // أو Colors.blue
-                    borderColor: AppColors.kPrimary,
+                    borderColor: AppColors.kBorder,
                     onTap: () {},
                   ),
                 ),
               ),
               SizedBox(width: 12.w),
-              // زر إعادة الجدولة (Filled)
               Expanded(
                 child: SizedBox(
-                  height: 45.h,
+                  height: 44.h,
                   child: CustomButton(
                     text: "Reschedule",
-                    textSize: 12,
+                    textSize: 13,
                     backGroundColor: AppColors.kPrimary,
-                    // أو Colors.blue
                     textColor: Colors.white,
                     onTap: () {},
                   ),

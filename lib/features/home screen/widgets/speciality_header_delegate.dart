@@ -13,12 +13,14 @@ class SpecialityHeaderDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Material(
-      elevation: shrinkOffset==0? 0:10,
-        animationDuration: Duration(milliseconds: 500),
-        shadowColor: Colors.black,
-        animateColor: true,
-        borderOnForeground: true,
-        child: SizedBox.expand(child: child));
+      elevation: shrinkOffset == 0 ? 0 : 4,
+      animationDuration: Duration(milliseconds: 300),
+      shadowColor: AppColors.kCardShadow,
+      color: AppColors.kBackGround,
+      animateColor: true,
+      borderOnForeground: true,
+      child: SizedBox.expand(child: child),
+    );
   }
 
   @override

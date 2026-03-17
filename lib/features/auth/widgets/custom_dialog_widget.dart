@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart'; // تأكد من استيراد هذا لأجل .w و .h
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/constant/app_colors.dart';
 import '../../../core/network/api_error.dart';
 import '../../../shared/custom_text.dart';
@@ -16,33 +16,46 @@ class CustomDialogWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 1. استخدمنا Dialog بدلاً من AlertDialog لتجنب مشاكل الـ Intrinsic Dimensions
     return Dialog(
-      backgroundColor: AppColors.kBackGround,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
-      // 2. Padding داخلي للبطاقة
-      insetPadding: EdgeInsets.symmetric(horizontal: 20.w),
+      backgroundColor: AppColors.kSurface,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
+      insetPadding: EdgeInsets.symmetric(horizontal: 24.w),
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 20.w),
+        padding: EdgeInsets.symmetric(vertical: 28.h, horizontal: 24.w),
         child: Column(
-          mainAxisSize: MainAxisSize.min, // 3. يجعل الـ Dialog ينكمش على حجم المحتوى
+          mainAxisSize: MainAxisSize.min,
           children: [
-            // --- العنوان ---
+            // Error icon
+            Container(
+              padding: EdgeInsets.all(16.r),
+              decoration: BoxDecoration(
+                color: AppColors.kError.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.error_outline_rounded,
+                color: AppColors.kError,
+                size: 36.sp,
+              ),
+            ),
+
+            SizedBox(height: 20.h),
+
+            // Title
             CustomText(
               text: "Please Try again",
               alignment: Alignment.center,
-              color: Colors.black,
+              color: AppColors.kDarkText,
               fontWeight: FontWeight.bold,
               size: 18,
             ),
 
             SizedBox(height: 16.h),
 
-            // --- المحتوى ---
+            // Content
             if (isSignUp)
               Column(
                 children: [
-                  // عرض أخطاء الحقول المحددة
                   if (error.emailError != null)
                     _buildErrorText(error.emailError!),
 
@@ -52,9 +65,6 @@ class CustomDialogWidget extends StatelessWidget {
                   if (error.phoneError != null)
                     _buildErrorText(error.phoneError!),
 
-                  // الرسالة العامة (الحل لمشكلة الـ 422)
-                  // إذا كان الـ API يرسل الخطأ داخل "data" ولكن ليس في الحقول المتوقعة،
-                  // نعرض الرسالة العامة القادمة من الباك إند
                   if (error.emailError == null &&
                       error.passwordError == null &&
                       error.phoneError == null)
@@ -66,18 +76,20 @@ class CustomDialogWidget extends StatelessWidget {
                 child: _buildErrorText(error.message ?? "Error Code: ${error.statusCode}"),
               ),
 
-            SizedBox(height: 20.h),
+            SizedBox(height: 24.h),
 
-            // --- زر الإغلاق ---
+            // Close button
             SizedBox(
               width: double.infinity,
+              height: 48.h,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.kPrimary,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14.r)),
                 ),
                 onPressed: () => Navigator.pop(context),
-                child: const Text("OK", style: TextStyle(color: Colors.white)),
+                child: const Text("OK", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
               ),
             ),
           ],
@@ -86,17 +98,16 @@ class CustomDialogWidget extends StatelessWidget {
     );
   }
 
-  // دالة مساعدة لتنسيق نص الخطأ
   Widget _buildErrorText(String text) {
     return Padding(
       padding: EdgeInsets.only(bottom: 8.h),
       child: CustomText(
         text: text,
         size: 14,
-        color: Colors.red,
+        color: AppColors.kError,
         textAlign: TextAlign.center,
         alignment: Alignment.center,
-        maxLines: 3, // مهم جداً لمنع overflow
+        maxLines: 3,
       ),
     );
   }
