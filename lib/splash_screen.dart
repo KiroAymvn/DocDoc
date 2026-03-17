@@ -49,7 +49,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(
-          transitionDuration: const Duration(milliseconds: 800),
+          transitionDuration: const Duration(milliseconds: 1500),
           pageBuilder: (_, __, ___) => isLogged ? Root() : OnboardingScreen(),
         ),
       );
@@ -97,7 +97,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                     child: SlideTransition(
                       position: _textOffset,
                       child: CustomText(
-                        text: " DOCDOC",
+                        text: "DOCDOC",
                         color: AppColors.kDarkText,
                         size: 50,
                         fontWeight: FontWeight.w800,
