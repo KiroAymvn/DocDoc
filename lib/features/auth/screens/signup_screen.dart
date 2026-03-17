@@ -13,7 +13,6 @@ import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-
 import '../../../shared/custom_scaffold_messanger.dart';
 import '../../../shared/custom_text_form_field.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -28,7 +27,8 @@ class SignupScreen extends StatefulWidget {
   State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> with SingleTickerProviderStateMixin {
+class _SignupScreenState extends State<SignupScreen>
+    with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   final ValueNotifier<bool> _val = ValueNotifier(false);
   late AnimationController _animController;
@@ -58,16 +58,24 @@ class _SignupScreenState extends State<SignupScreen> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    List<String> signInWith = ["assets/icons/google.svg", "assets/icons/facebook.svg", "assets/icons/apple.svg"];
+    List<String> signInWith = [
+      "assets/icons/google.svg",
+      "assets/icons/facebook.svg",
+      "assets/icons/apple.svg",
+    ];
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthSuccess) {
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => LoginScreen()),
+          );
         } else if (state is AuthFailed) {
           final error = state.apiError;
           showDialog(
             context: context,
-            builder: (context) => CustomDialogWidget(error: error, isSignUp: true),
+            builder: (context) =>
+                CustomDialogWidget(error: error, isSignUp: true),
           );
         }
       },
@@ -79,6 +87,7 @@ class _SignupScreenState extends State<SignupScreen> with SingleTickerProviderSt
             onTap: () => FocusScope.of(context).unfocus(),
             child: Scaffold(
               body: Container(
+                
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
@@ -88,7 +97,7 @@ class _SignupScreenState extends State<SignupScreen> with SingleTickerProviderSt
                       AppColors.kBackGround,
                       AppColors.kPrimary.withOpacity(0.03),
                     ],
-                    stops: const [0.0, 0.6, 1.0],
+                    stops: const [0.0, 0.3, 1.0],
                   ),
                 ),
                 child: SafeArea(
@@ -114,7 +123,8 @@ class _SignupScreenState extends State<SignupScreen> with SingleTickerProviderSt
                             ),
                             Gap(8.h),
                             CustomText(
-                              text: "Please take a few minutes to fill out your profile with as much detail as possible.",
+                              text:
+                                  "Please take a few minutes to fill out your profile with as much detail as possible.",
                               size: 14,
                               color: AppColors.kTextMuted,
                               textAlign: TextAlign.left,
@@ -124,31 +134,32 @@ class _SignupScreenState extends State<SignupScreen> with SingleTickerProviderSt
                             // ── Full Name ──
                             _buildFieldLabel("Full Name"),
                             Gap(6.h),
-                            CustomTextFormField(hintText: "Full Name", controller: cubit.fullNameController),
+                            CustomTextFormField(
+                              hintText: "Full Name",
+                              controller: cubit.fullNameController,
+                            ),
                             Gap(18.h),
 
                             // ── Email ──
                             _buildFieldLabel("Email Address"),
                             Gap(6.h),
-                            CustomTextFormField(hintText: "Email", controller: cubit.emailController),
+                            CustomTextFormField(
+                              hintText: "Email",
+                              controller: cubit.emailController,
+                            ),
                             Gap(18.h),
-
                             // ── Phone & Gender ──
+                            _buildFieldLabel("Phone"),
                             Row(
                               mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: .center,
                               children: [
+                                Gap(6.h),
                                 Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      _buildFieldLabel("Phone"),
-                                      Gap(6.h),
-                                      CustomTextFormField(
-                                        hintText: "Phone",
-                                        controller: cubit.phoneController,
-                                        textInputType: TextInputType.number,
-                                      ),
-                                    ],
+                                  child: CustomTextFormField(
+                                    hintText: "Phone",
+                                    controller: cubit.phoneController,
+                                    textInputType: TextInputType.number,
                                   ),
                                 ),
                                 Gap(10.w),
@@ -208,7 +219,9 @@ class _SignupScreenState extends State<SignupScreen> with SingleTickerProviderSt
                                       onTap: () {
                                         Navigator.pushReplacement(
                                           context,
-                                          MaterialPageRoute(builder: (context) => LoginScreen()),
+                                          MaterialPageRoute(
+                                            builder: (context) => LoginScreen(),
+                                          ),
                                         );
                                         cubit.fullNameController.clear();
                                         cubit.emailController.clear();
@@ -225,26 +238,51 @@ class _SignupScreenState extends State<SignupScreen> with SingleTickerProviderSt
                                       ? Container(
                                           height: 52.h,
                                           decoration: BoxDecoration(
-                                            color: AppColors.kPrimary.withOpacity(0.08),
-                                            borderRadius: BorderRadius.circular(14.r),
+                                            color: AppColors.kPrimary
+                                                .withOpacity(0.08),
+                                            borderRadius: BorderRadius.circular(
+                                              14.r,
+                                            ),
                                           ),
-                                          child: const Center(child: CupertinoActivityIndicator()),
+                                          child: const Center(
+                                            child: CupertinoActivityIndicator(),
+                                          ),
                                         )
                                       : CustomButton(
                                           text: "Sign up",
                                           useGradient: true,
                                           onTap: () {
-                                            if (_formKey.currentState!.validate()) {
-                                              if (cubit.passwordController.text != cubit.conformPasswordController.text) {
-                                                scaffoldMessengerError(context, "password doesn't match");
+                                            if (_formKey.currentState!
+                                                .validate()) {
+                                              if (cubit
+                                                      .passwordController
+                                                      .text !=
+                                                  cubit
+                                                      .conformPasswordController
+                                                      .text) {
+                                                scaffoldMessengerError(
+                                                  context,
+                                                  "password doesn't match",
+                                                );
                                               } else {
                                                 cubit.signUp(
-                                                  name: cubit.fullNameController.text,
-                                                  email: cubit.emailController.text,
-                                                  phone: cubit.phoneController.text,
-                                                  password: cubit.passwordController.text,
-                                                  confirmPassword: cubit.conformPasswordController.text,
-                                                  gender: cubit.gender.toString(),
+                                                  name: cubit
+                                                      .fullNameController
+                                                      .text,
+                                                  email: cubit
+                                                      .emailController
+                                                      .text,
+                                                  phone: cubit
+                                                      .phoneController
+                                                      .text,
+                                                  password: cubit
+                                                      .passwordController
+                                                      .text,
+                                                  confirmPassword: cubit
+                                                      .conformPasswordController
+                                                      .text,
+                                                  gender: cubit.gender
+                                                      .toString(),
                                                 );
                                               }
                                             }
@@ -272,12 +310,19 @@ class _SignupScreenState extends State<SignupScreen> with SingleTickerProviderSt
                                   ),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 14.w),
-                                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
+                                  margin: EdgeInsets.symmetric(
+                                    horizontal: 14.w,
+                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 16.w,
+                                    vertical: 6.h,
+                                  ),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(20.r),
-                                    border: Border.all(color: AppColors.kBorder),
+                                    border: Border.all(
+                                      color: AppColors.kBorder,
+                                    ),
                                   ),
                                   child: CustomText(
                                     text: "OR",
@@ -307,36 +352,55 @@ class _SignupScreenState extends State<SignupScreen> with SingleTickerProviderSt
                             // ── Social sign-in buttons ──
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: List.generate(signInWith.length, growable: true, (index) {
-                                return Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 10.w),
-                                  child: Material(
-                                    color: Colors.transparent,
-                                    child: InkWell(
-                                      borderRadius: BorderRadius.circular(16.r),
-                                      onTap: () {},
-                                      child: Container(
-                                        width: 62.w,
-                                        height: 62.w,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.circular(16.r),
-                                          border: Border.all(color: AppColors.kBorder.withOpacity(0.6)),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: AppColors.kCardShadow.withOpacity(0.08),
-                                              blurRadius: 12,
-                                              offset: const Offset(0, 4),
-                                              spreadRadius: 0,
-                                            ),
-                                          ],
+                              children: List.generate(
+                                signInWith.length,
+                                growable: true,
+                                (index) {
+                                  return Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 10.w,
+                                    ),
+                                    child: Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        borderRadius: BorderRadius.circular(
+                                          16.r,
                                         ),
-                                        child: Center(child: SvgPicture.asset(signInWith[index], height: 26.h)),
+                                        onTap: () {},
+                                        child: Container(
+                                          width: 62.w,
+                                          height: 62.w,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(
+                                              16.r,
+                                            ),
+                                            border: Border.all(
+                                              color: AppColors.kBorder
+                                                  .withOpacity(0.6),
+                                            ),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: AppColors.kCardShadow
+                                                    .withOpacity(0.08),
+                                                blurRadius: 12,
+                                                offset: const Offset(0, 4),
+                                                spreadRadius: 0,
+                                              ),
+                                            ],
+                                          ),
+                                          child: Center(
+                                            child: SvgPicture.asset(
+                                              signInWith[index],
+                                              height: 26.h,
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              }),
+                                  );
+                                },
+                              ),
                             ),
                             Gap(24.h),
                           ],
@@ -367,22 +431,20 @@ class _SignupScreenState extends State<SignupScreen> with SingleTickerProviderSt
 }
 
 class MaleFemaleWidget extends StatelessWidget {
-  const MaleFemaleWidget({
-    super.key,
-    required this.cubit,
-  });
+  const MaleFemaleWidget({super.key, required this.cubit});
 
   final AuthCubit cubit;
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return Flexible(
       child: ToggleSwitch(
         centerText: true,
         radiusStyle: true,
-        minHeight: 52.h,
+        minHeight: 51.h,
         minWidth: 100.w,
         initialLabelIndex: 0,
+        customTextStyles: [],
         curve: Curves.fastEaseInToSlowEaseOut,
         cornerRadius: 14.r,
         activeFgColor: Colors.white,
