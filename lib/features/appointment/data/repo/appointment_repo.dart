@@ -13,7 +13,7 @@ class AppointmentRepo {
       final response= await _apiService.post("/appointment/store", {
         "doctor_id":doctorId,
         "start_time":startDate,
-        "notes":notes??""
+        "notes":notes??"no notes"
       });
       final AppointmentModel appointmentModel=AppointmentModel.fromJson(response["data"]);
       return  appointmentModel;

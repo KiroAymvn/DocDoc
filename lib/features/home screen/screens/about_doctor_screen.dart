@@ -10,10 +10,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../appointment/screen/appointment_bottom_model_sheet.dart';
 
-class AboutDoctorScreen extends StatelessWidget {
+class AboutDoctorScreen extends StatefulWidget {
   const AboutDoctorScreen({super.key, required this.doctor});
 
   final DoctorModel doctor;
+
+  @override
+  State<AboutDoctorScreen> createState() => _AboutDoctorScreenState();
+}
+
+class _AboutDoctorScreenState extends State<AboutDoctorScreen> {
+  @override
+  void initState() {
+    context.read<AppointmentCubit>().notesController.clear();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,9 +79,9 @@ class AboutDoctorScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _buildGlassButton(
-                    context,
-                    icon: Icons.arrow_back_ios_new_rounded,
-                    onTap: () => Navigator.pop(context)
+                  context,
+                  icon: Icons.arrow_back_ios_new_rounded,
+                  onTap: () => Navigator.pop(context),
                 ),
                 CustomText(
                   text: "Doctor Profile",
@@ -79,9 +90,9 @@ class AboutDoctorScreen extends StatelessWidget {
                   color: Colors.black87,
                 ),
                 _buildGlassButton(
-                    context,
-                    icon: Icons.favorite_border_rounded,
-                    onTap: () {}
+                  context,
+                  icon: Icons.favorite_border_rounded,
+                  onTap: () {},
                 ),
               ],
             ),
@@ -91,7 +102,10 @@ class AboutDoctorScreen extends StatelessWidget {
           Positioned.fill(
             top: 100.h,
             child: SingleChildScrollView(
-              padding: EdgeInsets.only(top: 20.h, bottom: 120.h), // Space for bottom bar
+              padding: EdgeInsets.only(
+                top: 20.h,
+                bottom: 120.h,
+              ), // Space for bottom bar
               child: Column(
                 children: [
                   // --- Profile Section (Center) ---
@@ -105,12 +119,17 @@ class AboutDoctorScreen extends StatelessWidget {
                               padding: EdgeInsets.all(3),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                border: Border.all(color: AppColors.kPrimary, width: 2),
+                                border: Border.all(
+                                  color: AppColors.kPrimary,
+                                  width: 2,
+                                ),
                                 color: Colors.white,
                               ),
                               child: CircleAvatar(
                                 radius: 65.r,
-                                backgroundImage: const AssetImage("assets/images/man4.png"),
+                                backgroundImage: const AssetImage(
+                                  "assets/images/man4.png",
+                                ),
                                 backgroundColor: Colors.grey.shade200,
                               ),
                             ),
@@ -123,15 +142,18 @@ class AboutDoctorScreen extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   color: Colors.green,
                                   shape: BoxShape.circle,
-                                  border: Border.all(color: Colors.white, width: 3),
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    width: 3,
+                                  ),
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                         Gap(15.h),
                         CustomText(
-                          text: doctor.name,
+                          text: widget.doctor.name,
                           size: 24,
                           fontWeight: FontWeight.w800,
                           color: Colors.black,
@@ -140,13 +162,15 @@ class AboutDoctorScreen extends StatelessWidget {
                         ),
                         Gap(5.h),
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12.w,
+                            vertical: 6.h,
+                          ),
                           decoration: BoxDecoration(
-
                             borderRadius: BorderRadius.circular(8.r),
                           ),
                           child: CustomText(
-                            text: doctor.specialization.specialityName,
+                            text: widget.doctor.specialization.specialityName,
                             size: 14,
                             fontWeight: FontWeight.w600,
                             color: AppColors.kPrimary,
@@ -173,16 +197,24 @@ class AboutDoctorScreen extends StatelessWidget {
                             color: Colors.black.withOpacity(0.03),
                             blurRadius: 15,
                             offset: const Offset(0, 5),
-                          )
+                          ),
                         ],
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           _buildStatItem("Patients", "1.2k+", Colors.blue),
-                          Container(width: 1, height: 40.h, color: kBorderColor),
+                          Container(
+                            width: 1,
+                            height: 40.h,
+                            color: kBorderColor,
+                          ),
                           _buildStatItem("Experience", "5 Yr", Colors.orange),
-                          Container(width: 1, height: 40.h, color: kBorderColor),
+                          Container(
+                            width: 1,
+                            height: 40.h,
+                            color: kBorderColor,
+                          ),
                           _buildStatItem("Rating", "4.8", Colors.amber),
                         ],
                       ),
@@ -204,7 +236,7 @@ class AboutDoctorScreen extends StatelessWidget {
                         ),
                         Gap(10.h),
                         CustomText(
-                          text: doctor.description,
+                          text: widget.doctor.description,
                           size: 14,
                           color: Colors.grey.shade600,
                           maxLines: 4,
@@ -221,27 +253,28 @@ class AboutDoctorScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         _buildInfoTile(
-                            icon: Icons.access_time_filled_rounded,
-                            color: Colors.blue.shade100,
-                            iconColor: Colors.blue,
-                            title: "Working Hours",
-                            subtitle: "${doctor.startTime} - ${doctor.endTime}"
+                          icon: Icons.access_time_filled_rounded,
+                          color: Colors.blue.shade100,
+                          iconColor: Colors.blue,
+                          title: "Working Hours",
+                          subtitle:
+                              "${widget.doctor.startTime} - ${widget.doctor.endTime}",
                         ),
                         Gap(15.h),
                         _buildInfoTile(
-                            icon: Icons.location_on_rounded,
-                            color: Colors.red.shade100,
-                            iconColor: Colors.red,
-                            title: "Location",
-                            subtitle: doctor.address
+                          icon: Icons.location_on_rounded,
+                          color: Colors.red.shade100,
+                          iconColor: Colors.red,
+                          title: "Location",
+                          subtitle: widget.doctor.address,
                         ),
                         Gap(15.h),
                         _buildInfoTile(
-                            icon: Icons.phone_in_talk_rounded,
-                            color: Colors.green.shade100,
-                            iconColor: Colors.green,
-                            title: "Contact",
-                            subtitle: doctor.phone
+                          icon: Icons.phone_in_talk_rounded,
+                          color: Colors.green.shade100,
+                          iconColor: Colors.green,
+                          title: "Contact",
+                          subtitle: widget.doctor.phone,
                         ),
                       ],
                     ),
@@ -273,7 +306,10 @@ class AboutDoctorScreen extends StatelessWidget {
                 children: [
                   // Price Tag
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 12.h,
+                    ),
                     decoration: BoxDecoration(
                       color: const Color(0xFFF5F7FA),
                       borderRadius: BorderRadius.circular(16.r),
@@ -282,13 +318,9 @@ class AboutDoctorScreen extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        CustomText(text: "Price", size: 12, color: Colors.grey),
                         CustomText(
-                          text: "Price",
-                          size: 12,
-                          color: Colors.grey,
-                        ),
-                        CustomText(
-                          text: "\$${doctor.appointPrice}",
+                          text: "\$${widget.doctor.appointPrice}",
                           size: 20,
                           fontWeight: FontWeight.w800,
                           color: Colors.black87,
@@ -311,8 +343,8 @@ class AboutDoctorScreen extends StatelessWidget {
                               buildShowModalBottomSheetAppointment(
                                 context,
                                 state,
-                                doctorName: doctor.name,
-                                doctorID: doctor.doctorId,
+                                doctorName: widget.doctor.name,
+                                doctorID: widget.doctor.doctorId,
                               );
                             },
                             style: ElevatedButton.styleFrom(
@@ -344,8 +376,11 @@ class AboutDoctorScreen extends StatelessWidget {
   }
 
   // --- Helper Widgets for Sharp UI ---
-
-  Widget _buildGlassButton(BuildContext context, {required IconData icon, required VoidCallback onTap}) {
+  Widget _buildGlassButton(
+    BuildContext context, {
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -389,7 +424,7 @@ class AboutDoctorScreen extends StatelessWidget {
     required Color color,
     required Color iconColor,
     required String title,
-    required String subtitle
+    required String subtitle,
   }) {
     return Container(
       padding: EdgeInsets.all(12.r),

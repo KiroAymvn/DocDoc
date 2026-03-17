@@ -175,7 +175,7 @@ Future<dynamic> buildShowModalBottomSheetAppointment(
 
                 SizedBox(
                   height: 100.h,
-                  child: CustomTextFormField(hintText: "Notes", isExpand: true),
+                  child: CustomTextFormField(hintText: "Notes", isExpand: true,controller: context.read<AppointmentCubit>().notesController,),
                 ),
                 Gap(12.h),
                 state is AppointmentLoading

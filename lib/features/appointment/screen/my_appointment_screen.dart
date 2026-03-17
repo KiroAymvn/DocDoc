@@ -21,13 +21,15 @@ class MyAppointmentScreen extends StatefulWidget {
   State<MyAppointmentScreen> createState() => _MyAppointmentScreenState();
 }
 
-class _MyAppointmentScreenState extends State<MyAppointmentScreen> with SingleTickerProviderStateMixin {
+class _MyAppointmentScreenState extends State<MyAppointmentScreen>
+    with SingleTickerProviderStateMixin {
   TabController? _tabController;
 
   @override
   void initState() {
     context.read<AppointmentCubit>().getAppointment();
     _tabController = TabController(length: 3, vsync: this);
+    
     super.initState();
   }
 
@@ -76,8 +78,14 @@ class _MyAppointmentScreenState extends State<MyAppointmentScreen> with SingleTi
               dividerColor: Colors.transparent,
               labelColor: Colors.white,
               unselectedLabelColor: AppColors.kTextMuted,
-              labelStyle: GoogleFonts.inter(fontSize: 13.sp, fontWeight: FontWeight.w600),
-              unselectedLabelStyle: GoogleFonts.inter(fontSize: 13.sp, fontWeight: FontWeight.w500),
+              labelStyle: GoogleFonts.inter(
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w600,
+              ),
+              unselectedLabelStyle: GoogleFonts.inter(
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w500,
+              ),
               tabs: [
                 Tab(text: 'Upcoming'),
                 Tab(text: 'Completed'),
@@ -95,7 +103,6 @@ class _MyAppointmentScreenState extends State<MyAppointmentScreen> with SingleTi
                     // TODO: implement listener
                   },
                   builder: (context, state) {
-
                     if (state is AppointmentLoading) {
                       return Skeletonizer(
                         enabled: true,
@@ -115,7 +122,10 @@ class _MyAppointmentScreenState extends State<MyAppointmentScreen> with SingleTi
                                   address: "address",
                                   description: "description",
                                   degree: "degree",
-                                  specialization: SpecialityModel(specialityID: 1, specialityName: "specialityName"),
+                                  specialization: SpecialityModel(
+                                    specialityID: 1,
+                                    specialityName: "specialityName",
+                                  ),
                                   appointPrice: 300,
                                   startTime: "startTime",
                                   endTime: "endTime",
@@ -139,25 +149,29 @@ class _MyAppointmentScreenState extends State<MyAppointmentScreen> with SingleTi
                       );
                     }
 
-
-                    if (state is GetAppointmentSuccess && state.appointmentModelList.isEmpty) {
-                      return Center(child: Lottie.asset("assets/lottie/Empty List.json"));
+                    if (state is GetAppointmentSuccess &&
+                        state.appointmentModelList.isEmpty) {
+                      return Center(
+                        child: Lottie.asset("assets/lottie/Empty List.json"),
+                      );
                     }
-
 
                     if (state is GetAppointmentSuccess) {
                       return ListView.builder(
                         padding: EdgeInsets.only(top: 16.h),
                         itemCount: state.appointmentModelList.length,
                         itemBuilder: (context, index) {
-                          return AppointmentCard(appointmentModel: state.appointmentModelList[index]);
+                          return AppointmentCard(
+                            appointmentModel: state.appointmentModelList[index],
+                          );
                         },
                       );
                     }
 
-
                     if (state is AppointmentFailed) {
-                      return Center(child: CustomText(text: state.errorMessage));
+                      return Center(
+                        child: CustomText(text: state.errorMessage),
+                      );
                     }
                     return const SizedBox.shrink();
                   },
@@ -165,10 +179,22 @@ class _MyAppointmentScreenState extends State<MyAppointmentScreen> with SingleTi
 
                 // second tab bar view widget
                 Center(
-                  child: CustomText(text: 'Completed', size: 18, fontWeight: FontWeight.w500, color: AppColors.kTextMuted, alignment: Alignment.center),
+                  child: CustomText(
+                    text: 'Completed',
+                    size: 18,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.kTextMuted,
+                    alignment: Alignment.center,
+                  ),
                 ),
                 Center(
-                  child: CustomText(text: 'Cancelled', size: 18, fontWeight: FontWeight.w500, color: AppColors.kTextMuted, alignment: Alignment.center),
+                  child: CustomText(
+                    text: 'Cancelled',
+                    size: 18,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.kTextMuted,
+                    alignment: Alignment.center,
+                  ),
                 ),
               ],
             ),
