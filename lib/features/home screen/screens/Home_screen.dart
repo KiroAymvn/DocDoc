@@ -114,24 +114,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             );
                           },
-                          child: Container(
-                            padding: EdgeInsets.all(10.r),
-                            decoration: BoxDecoration(
-                              color: AppColors.kWhite,
-                              borderRadius: BorderRadius.circular(12.r),
-                              border: Border.all(color: AppColors.kBorder),
-                            ),
-                            child: SvgPicture.asset(
-                              "assets/icons/search-normal.svg",
-                              height: 20.h,
-                              width: 20.w,
-                            ),
+                          child: SvgPicture.asset(
+                            "assets/icons/search-normal.svg",
+                            height: 20.h,
+                            width: 20.w,
                           ),
                         ),
                         Gap(4.w),
                       ],
                     ),
-                    SliverToBoxAdapter(child: Gap(16.h)),
                     SliverToBoxAdapter(
                       child: Container(
                         height: 148.h,
