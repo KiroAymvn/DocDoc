@@ -12,13 +12,15 @@ class SpecialityHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    // Because minHeight == maxHeight, shrinkOffset will always be 0.
+    // We must use overlapsContent to know when the user scrolls under it.
+    final bool isScrolled = overlapsContent || shrinkOffset > 0;
+
     return Material(
-      elevation: shrinkOffset == 0 ? 0 : 4,
-      animationDuration: Duration(milliseconds: 300),
-      shadowColor: AppColors.kCardShadow,
+      elevation: isScrolled ? 6 : 0,
+      animationDuration: const Duration(milliseconds: 1000),
+      shadowColor: AppColors.kDarkText,
       color: AppColors.kBackGround,
-      animateColor: true,
-      borderOnForeground: true,
       child: SizedBox.expand(child: child),
     );
   }

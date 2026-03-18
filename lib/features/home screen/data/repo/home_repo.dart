@@ -15,20 +15,32 @@ class HomeRepo {
       print("enter repo phase try");
 
       final response = await _apiService.get("/home/index");
-      return (response["data"] as List).map((e) => HomePageModel.fromJson(e)).toList();
+      return (response["data"] as List)
+          .map((e) => HomePageModel.fromJson(e))
+          .toList();
     } on DioException catch (e) {
       print("enter repo phase catch");
 
       throw ApiExceptions.handleError(e);
     }
   }
-  
-  
-  Future<List<DoctorModel>> getAllDoctors()async{
-    try{
-      final response =await _apiService.get("/doctor/index");
-      return (response["data"] as List).map((e)=>DoctorModel.fromMap(e)).toList();
-    }on DioException catch(e){
+
+  Future<List<DoctorModel>> getAllDoctors() async {
+    try {
+      final response = await _apiService.get("/doctor/index");
+      return (response["data"] as List)
+          .map((e) => DoctorModel.fromMap(e))
+          .toList();
+    } on DioException catch (e) {
+      throw ApiExceptions.handleError(e);
+    }
+  }
+
+  Future<HomePageModel> getDoctorSpeciality({required String specId}) async {
+    try {
+      final response = await _apiService.get("/specialization/show/$specId");
+      return HomePageModel.fromJson(response["data"]);
+    } on DioException catch (e) {
       throw ApiExceptions.handleError(e);
     }
   }

@@ -11,6 +11,7 @@ class HomeCubit extends Cubit<HomeState> {
   HomeRepo _homeRepo=HomeRepo();
 
   Future<void>getHomePageData()async{
+    
     try{
       emit(HomeLoading());
       print("LOADINGGG");

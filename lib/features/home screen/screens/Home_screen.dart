@@ -3,10 +3,12 @@ import 'package:appointment/core/constant/screen_size.dart';
 import 'package:appointment/core/utils/pref_helper.dart';
 import 'package:appointment/core/models/doctor_model.dart';
 import 'package:appointment/features/home%20screen/data/model/home_page_model.dart';
-import 'package:appointment/features/home%20screen/data/presentation/home_cubit.dart';
+import 'package:appointment/features/home%20screen/data/presentation/cubit/home_cubit.dart';
 import 'package:appointment/features/home%20screen/screens/all_doctor_speciality_screen.dart';
 import 'package:appointment/features/home%20screen/screens/all_doctors_screen.dart';
-import 'package:appointment/features/search%20doctor/screen/search_screen.dart' hide CustomDoctorCardWidget;
+import 'package:appointment/features/home%20screen/screens/all_doctors_speciality_list.dart';
+import 'package:appointment/features/search%20doctor/screen/search_screen.dart'
+    hide CustomDoctorCardWidget;
 import 'package:appointment/shared/custom_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -105,7 +107,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       actions: [
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SearchScreen(),
+                              ),
+                            );
                           },
                           child: Container(
                             padding: EdgeInsets.all(10.r),
@@ -138,14 +145,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                 height: 130.h,
                                 decoration: BoxDecoration(
                                   gradient: const LinearGradient(
-                                    colors: [AppColors.kGradientStart, AppColors.kGradientEnd],
+                                    colors: [
+                                      AppColors.kGradientStart,
+                                      AppColors.kGradientEnd,
+                                    ],
                                     begin: Alignment.centerLeft,
                                     end: Alignment.centerRight,
                                   ),
-                                  borderRadius: BorderRadius.all(Radius.circular(20.r)),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(20.r),
+                                  ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: AppColors.kPrimary.withOpacity(0.3),
+                                      color: AppColors.kPrimary.withOpacity(
+                                        0.3,
+                                      ),
                                       blurRadius: 20,
                                       offset: const Offset(0, 8),
                                     ),
@@ -192,7 +206,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: GestureDetector(
                                 onTap: () {},
                                 child: Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 20.w,
+                                    vertical: 8.h,
+                                  ),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(10.r),
@@ -223,6 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       delegate: SpecialityHeaderDelegate(
                         minHeight: 100.h,
                         maxHeight: 100.h,
+                        
                         child: Container(
                           color: AppColors.kBackGround,
                           child: Column(
@@ -232,7 +250,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 4.w),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     CustomText(
                                       text: "Doctor Speciality",
@@ -244,7 +263,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                       onTap: () {
                                         Navigator.push(
                                           context,
-                                          MaterialPageRoute(builder: (context) => AllDoctorSpecialtyScreen()),
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                AllDoctorSpecialtyScreen(),
+                                          ),
                                         );
                                       },
                                       child: CustomText(
@@ -262,12 +284,29 @@ class _HomeScreenState extends State<HomeScreen> {
                                 height: 70.h,
                                 child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
-                                  itemCount: SpecialityModel.specialityList.length,
+                                  itemCount:
+                                      SpecialityModel.specialityList.length,
                                   itemBuilder: (context, index) {
-                                    final item = SpecialityModel.specialityList[index];
+                                    final item =
+                                        SpecialityModel.specialityList[index];
                                     return Padding(
                                       padding: EdgeInsets.only(right: 10.w),
-                                      child: SpecialityWidget(item: item),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (c) =>
+                                                  AllDoctorsSpecialityListScreen(
+                                                    specId: item.specialityID
+                                                        .toString(),
+                                                    title: item.specialityName,
+                                                  ),
+                                            ),
+                                          );
+                                        },
+                                        child: SpecialityWidget(item: item),
+                                      ),
                                     );
                                   },
                                 ),
@@ -282,7 +321,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     SliverToBoxAdapter(child: Gap(0.h)),
                     SliverToBoxAdapter(
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 8.h),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 4.w,
+                          vertical: 8.h,
+                        ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -299,7 +341,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             Spacer(),
                             GestureDetector(
                               onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => AllDoctorsScreen()));
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => AllDoctorsScreen(),
+                                  ),
+                                );
                               },
                               child: CustomText(
                                 text: "See all",

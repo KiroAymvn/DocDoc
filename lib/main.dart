@@ -4,8 +4,9 @@ import 'package:appointment/features/appointment/data/model/appointment_model.da
 import 'package:appointment/features/auth/data/presenation/auth_cubit.dart';
 import 'package:appointment/features/auth/screens/login_screen.dart';
 import 'package:appointment/features/auth/screens/signup_screen.dart';
-import 'package:appointment/features/home%20screen/data/presentation/all_doctors_cubit.dart';
-import 'package:appointment/features/home%20screen/data/presentation/home_cubit.dart';
+import 'package:appointment/features/home%20screen/data/presentation/cubit/all_doctors_cubit.dart';
+import 'package:appointment/features/home%20screen/data/presentation/cubit/home_cubit.dart';
+import 'package:appointment/features/home%20screen/data/presentation/cubit/speciality_cubit.dart';
 import 'package:appointment/features/profile%20screen/data/presentation/logout/logout_cubit.dart';
 import 'package:appointment/features/profile%20screen/screens/profile_screen.dart';
 import 'package:appointment/features/search%20doctor/data/presentaion/search_doctor_cubit.dart';
@@ -30,6 +31,10 @@ void main() {
       ),
       BlocProvider<AuthCubit>(
         create: (context) => AuthCubit(),
+        lazy: true,
+      ),
+      BlocProvider<SpecialityCubit>(
+        create: (context) => SpecialityCubit(),
         lazy: true,
       ),
       BlocProvider<SearchDoctorCubit>(

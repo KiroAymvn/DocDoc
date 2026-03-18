@@ -1,5 +1,5 @@
 import 'package:appointment/core/constant/app_colors.dart';
-import 'package:appointment/features/home%20screen/data/presentation/all_doctors_cubit.dart';
+import 'package:appointment/features/home%20screen/data/presentation/cubit/all_doctors_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
