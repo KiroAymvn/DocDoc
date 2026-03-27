@@ -15,7 +15,6 @@ import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-
 import '../../../shared/custom_text_form_field.dart';
 import '../widgets/custom_dialog_widget.dart';
 import '../widgets/custom_remember_forgot_password.dart';
@@ -27,7 +26,8 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStateMixin {
+class _LoginScreenState extends State<LoginScreen>
+    with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   late AnimationController _animController;
   late Animation<double> _fadeAnim;
@@ -56,13 +56,19 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
-
     final ValueNotifier<bool> _val = ValueNotifier(false);
-    List<String> signInWith = ["assets/icons/google.svg", "assets/icons/facebook.svg", "assets/icons/apple.svg"];
+    List<String> signInWith = [
+      "assets/icons/google.svg",
+      "assets/icons/facebook.svg",
+      "assets/icons/apple.svg",
+    ];
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthSuccess) {
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Root()));
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Root()),
+          );
         } else if (state is AuthFailed) {
           final error = state.apiError;
           scaffoldMessengerError(context, "Invalid email or password");
@@ -73,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
         return Form(
           key: _formKey,
           child: GestureDetector(
-            onTap: ()=> FocusScope.of(context).unfocus(),
+            onTap: () => FocusScope.of(context).unfocus(),
             child: Scaffold(
               body: Container(
                 decoration: BoxDecoration(
@@ -164,7 +170,9 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                                     textColor: AppColors.kPrimary,
                                     onTap: () => Navigator.pushReplacement(
                                       context,
-                                      MaterialPageRoute(builder: (context) => SignupScreen()),
+                                      MaterialPageRoute(
+                                        builder: (context) => SignupScreen(),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -174,19 +182,29 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                                       ? Container(
                                           height: 52.h,
                                           decoration: BoxDecoration(
-                                            color: AppColors.kPrimary.withOpacity(0.08),
-                                            borderRadius: BorderRadius.circular(14.r),
+                                            color: AppColors.kPrimary
+                                                .withOpacity(0.08),
+                                            borderRadius: BorderRadius.circular(
+                                              14.r,
+                                            ),
                                           ),
-                                          child: const Center(child: CupertinoActivityIndicator()),
+                                          child: const Center(
+                                            child: CupertinoActivityIndicator(),
+                                          ),
                                         )
                                       : CustomButton(
                                           text: "Login",
                                           useGradient: true,
                                           onTap: () {
-                                            if (_formKey.currentState!.validate()) {
+                                            if (_formKey.currentState!
+                                                .validate()) {
                                               cubit.login(
-                                                email: cubit.loginEmailController.text,
-                                                password: cubit.loginPasswordController.text,
+                                                email: cubit
+                                                    .loginEmailController
+                                                    .text,
+                                                password: cubit
+                                                    .loginPasswordController
+                                                    .text,
                                               );
                                             }
                                           },
@@ -213,12 +231,19 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                                   ),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 14.w),
-                                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
+                                  margin: EdgeInsets.symmetric(
+                                    horizontal: 14.w,
+                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 16.w,
+                                    vertical: 6.h,
+                                  ),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(20.r),
-                                    border: Border.all(color: AppColors.kBorder),
+                                    border: Border.all(
+                                      color: AppColors.kBorder,
+                                    ),
                                   ),
                                   child: CustomText(
                                     text: "OR",
@@ -248,36 +273,55 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                             // ── Social sign-in buttons ──
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: List.generate(signInWith.length, growable: true, (index) {
-                                return Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 10.w),
-                                  child: Material(
-                                    color: Colors.transparent,
-                                    child: InkWell(
-                                      borderRadius: BorderRadius.circular(16.r),
-                                      onTap: () {},
-                                      child: Container(
-                                        width: 62.w,
-                                        height: 62.w,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.circular(16.r),
-                                          border: Border.all(color: AppColors.kBorder.withOpacity(0.6)),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: AppColors.kCardShadow.withOpacity(0.08),
-                                              blurRadius: 12,
-                                              offset: const Offset(0, 4),
-                                              spreadRadius: 0,
-                                            ),
-                                          ],
+                              children: List.generate(
+                                signInWith.length,
+                                growable: true,
+                                (index) {
+                                  return Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 10.w,
+                                    ),
+                                    child: Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        borderRadius: BorderRadius.circular(
+                                          16.r,
                                         ),
-                                        child: Center(child: SvgPicture.asset(signInWith[index], height: 26.h)),
+                                        onTap: () {},
+                                        child: Container(
+                                          width: 62.w,
+                                          height: 62.w,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(
+                                              16.r,
+                                            ),
+                                            border: Border.all(
+                                              color: AppColors.kBorder
+                                                  .withOpacity(0.6),
+                                            ),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: AppColors.kCardShadow
+                                                    .withOpacity(0.08),
+                                                blurRadius: 12,
+                                                offset: const Offset(0, 4),
+                                                spreadRadius: 0,
+                                              ),
+                                            ],
+                                          ),
+                                          child: Center(
+                                            child: SvgPicture.asset(
+                                              signInWith[index],
+                                              height: 26.h,
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              }),
+                                  );
+                                },
+                              ),
                             ),
                             Gap(24.h),
                           ],
