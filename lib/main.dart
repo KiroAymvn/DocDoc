@@ -88,6 +88,14 @@ return ScreenUtilInit(
   // Use builder only if you need to use library outside ScreenUtilInit context
   builder: (_ , child) {
     return MaterialApp(
+      theme: ThemeData(
+        scaffoldBackgroundColor: AppColors.kBackGround,
+        appBarTheme: AppBarTheme(
+          backgroundColor: AppColors.kBackGround,
+          surfaceTintColor : AppColors.kBackGround,
+          
+        ),
+      ),
       useInheritedMediaQuery: true,
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,

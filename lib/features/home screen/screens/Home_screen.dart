@@ -270,7 +270,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ],
                                 ),
                               ),
-                              Gap(6.h),
                               SizedBox(
                                 height: 70.h,
                                 child: ListView.builder(
@@ -309,7 +308,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       pinned: true,
                     ),
 
-                    SliverToBoxAdapter(child: Gap(0.h)),
                     SliverToBoxAdapter(
                       child: Padding(
                         padding: EdgeInsets.symmetric(
