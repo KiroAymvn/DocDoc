@@ -26,8 +26,8 @@ class AuthCubit extends Cubit<AuthState> {
   int gender = 0;
 
   //Login CONTROLLER
-  TextEditingController loginEmailController = TextEditingController(text: "123@gmail.com");
-  TextEditingController loginPasswordController = TextEditingController(text: "passwordddd");
+  TextEditingController loginEmailController = TextEditingController();
+  TextEditingController loginPasswordController = TextEditingController();
 
   Future<void> signUp({
     required String name,

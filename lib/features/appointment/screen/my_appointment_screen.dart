@@ -87,9 +87,16 @@ class _MyAppointmentScreenState extends State<MyAppointmentScreen>
                 fontWeight: FontWeight.w500,
               ),
               tabs: [
-                Tab(text: 'Upcoming'),
-                Tab(text: 'Completed'),
-                Tab(text: 'Cancelled'),
+
+                  FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Tab(text: 'Upcoming')),
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Tab(text: 'Completed')),
+                  FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Tab(text: 'Cancelled')),
               ],
             ),
           ),
@@ -100,7 +107,6 @@ class _MyAppointmentScreenState extends State<MyAppointmentScreen>
                 // first tab bar view widget
                 BlocConsumer<AppointmentCubit, AppointmentState>(
                   listener: (context, state) {
-                    // TODO: implement listener
                   },
                   builder: (context, state) {
                     if (state is AppointmentLoading) {

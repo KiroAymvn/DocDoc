@@ -46,7 +46,7 @@ class OnboardingScreen extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    bottom: 190.h,
+                    bottom: 180.h,
                     left: 0,
                     right: 0,
                     child: CustomText(
@@ -59,7 +59,7 @@ class OnboardingScreen extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    bottom: 155.h,
+                    bottom: 150.h,
                     left: 0,
                     right: 0,
                     child: CustomText(
@@ -77,12 +77,15 @@ class OnboardingScreen extends StatelessWidget {
                     right: 0,
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
-                      child: CustomText(
-                        text: "Manage and schedule all of your medical appointments easily with Docdoc to get a new experience",
-                        textAlign: TextAlign.center,
-                        size: 13,
-                        color: AppColors.kTextMuted,
-                        alignment: Alignment.center,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: CustomText(
+                          text: "Manage and schedule all of your medical appointments \n easily with Docdoc to get a new experience",
+                          textAlign: TextAlign.center,
+                          size: 13,
+                          color: AppColors.kTextMuted,
+                          alignment: Alignment.center,
+                        ),
                       ),
                     ),
                   ),

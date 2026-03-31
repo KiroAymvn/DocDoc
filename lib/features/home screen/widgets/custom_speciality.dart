@@ -39,13 +39,15 @@ class SpecialityWidget extends StatelessWidget {
           ),
         ),
         Gap(6.h),
-        CustomText(
-          text: item.specialityName,
-          size: 10,
-          maxLines: 1,
-          color: AppColors.kDarkText,
-          alignment: Alignment.center,
-          fontWeight: FontWeight.w500,
+        Flexible(
+          child: CustomText(
+            text: item.specialityName,
+            size: 10,
+            maxLines: 1,
+            color: AppColors.kDarkText,
+            alignment: Alignment.center,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ],
     );

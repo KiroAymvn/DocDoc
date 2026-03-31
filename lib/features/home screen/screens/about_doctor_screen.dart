@@ -128,7 +128,7 @@ class _AboutDoctorScreenState extends State<AboutDoctorScreen> {
                               child: CircleAvatar(
                                 radius: 65.r,
                                 backgroundImage: const AssetImage(
-                                  "assets/images/man4.png",
+                                  "assets/images/man2.png",
                                 ),
                                 backgroundColor: Colors.grey.shade200,
                               ),

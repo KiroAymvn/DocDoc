@@ -438,29 +438,35 @@ class MaleFemaleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Flexible(
-      child: ToggleSwitch(
-        centerText: true,
-        radiusStyle: true,
-        minHeight: 51.h,
-        minWidth: 100.w,
-        initialLabelIndex: 0,
-        customTextStyles: [],
-        curve: Curves.fastEaseInToSlowEaseOut,
-        cornerRadius: 14.r,
-        activeFgColor: Colors.white,
-        inactiveBgColor: AppColors.kLightGrey,
-        inactiveFgColor: AppColors.kGrey,
-        totalSwitches: 2,
-        labels: ['Male', 'Female'],
-        icons: [Icons.male, Icons.female],
-        animate: true,
-        activeBgColors: [
-          [AppColors.kPrimary],
-          [const Color(0xffec4899)],
-        ],
-        onToggle: (index) {
-          cubit.gender = index!;
-        },
+      child: FittedBox(
+        fit: BoxFit.fitHeight,
+        child: ToggleSwitch(
+          centerText: true,
+          radiusStyle: true,
+          minHeight: 80.h,
+          minWidth: 110.w,
+          initialLabelIndex: 0,
+          customTextStyles: [
+          
+          ],
+          iconSize: 20.sp,
+          curve: Curves.fastEaseInToSlowEaseOut,
+          cornerRadius: 14.r,
+          activeFgColor: Colors.white,
+          inactiveBgColor: AppColors.kLightGrey,
+          inactiveFgColor: AppColors.kGrey,
+          totalSwitches: 2,
+          labels: const ['Male', 'Female'],
+          icons: const [Icons.male, Icons.female],
+          animate: true,
+          activeBgColors: [
+            [AppColors.kPrimary],
+            [const Color(0xffec4899)],
+          ],
+          onToggle: (index) {
+            cubit.gender = index!;
+          },
+        ),
       ),
     );
   }
