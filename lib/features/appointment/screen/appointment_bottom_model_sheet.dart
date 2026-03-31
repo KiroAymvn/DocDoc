@@ -25,7 +25,6 @@ Future<dynamic> buildShowModalBottomSheetAppointment(
     backgroundColor: AppColors.kSurface,
     context: context,
     sheetAnimationStyle: AnimationStyle(curve: SawTooth(3), duration: Duration(seconds: 1), reverseCurve: SawTooth(1)),
-    constraints: BoxConstraints(maxHeight: 600.h),
     showDragHandle: false,
     isDismissible: true,
     isScrollControlled: true,
@@ -36,26 +35,30 @@ Future<dynamic> buildShowModalBottomSheetAppointment(
     builder: (context) {
       final cubit = context.read<AppointmentCubit>();
 
-      return BlocConsumer<AppointmentCubit, AppointmentState>(
-        listener: (context, state) {
-          if (state is AppointmentFailed) {
-            Navigator.pop(context);
-            scaffoldMessengerError(context, "error happened");
-          } else if (state is AppointmentSuccess) {
-            Navigator.pop(context);
-            Navigator.pop(context);
-            scaffoldMessengerError(context, "Appointment Done Successfully", color: AppColors.kSuccess);
-          }
-        },
-        builder: (context, state) {
-          final cubit = context.read<AppointmentCubit>();
+      return Padding(
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxHeight: 650.h),
+          child: BlocConsumer<AppointmentCubit, AppointmentState>(
+            listener: (context, state) {
+              if (state is AppointmentFailed) {
+                Navigator.pop(context);
+                scaffoldMessengerError(context, "error happened");
+              } else if (state is AppointmentSuccess) {
+                Navigator.pop(context);
+                Navigator.pop(context);
+                scaffoldMessengerError(context, "Appointment Done Successfully", color: AppColors.kSuccess);
+              }
+            },
+            builder: (context, state) {
+              final cubit = context.read<AppointmentCubit>();
 
-          return ClipRRect(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(28.r)),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                // ── Header ──────────────────────────────────────────
+              return ClipRRect(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(28.r)),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    // ── Header ──────────────────────────────────────────
                 Container(
                   width: double.infinity,
                   padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 18.h),
@@ -356,7 +359,9 @@ Future<dynamic> buildShowModalBottomSheetAppointment(
             ),
           );
         },
-      );
+      ),
+    ),
+  );
     },
   );
 }
