@@ -38,6 +38,7 @@ dependencies:
   intl: ^0.20.2
   glaze_nav_bar: ^1.2.1
   flutter_launcher_icons: ^0.14.4
+  flutter_rounded_date_picker: ^3.0.4
 
 
 dev_dependencies:
