@@ -1,12 +1,12 @@
 import 'package:appointment/shared/custom_button.dart';
 import 'package:appointment/shared/custom_scaffold_messanger.dart';
 import 'package:appointment/shared/custom_text_form_field.dart';
+import 'package:appointment/core/network/connectivity_service.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
-import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:intl/intl.dart';
@@ -14,7 +14,6 @@ import 'package:lottie/lottie.dart';
 import '../../../core/constant/app_colors.dart';
 import '../../../shared/custom_text.dart';
 import '../data/presentation/appointment_cubit.dart';
-import '../widget/custom_divider.dart';
 
 
 Future<dynamic> buildShowModalBottomSheetAppointment(
@@ -40,8 +39,6 @@ Future<dynamic> buildShowModalBottomSheetAppointment(
       borderRadius: BorderRadius.vertical(top: Radius.circular(28.r)),
     ),
     builder: (context) {
-      final cubit = context.read<AppointmentCubit>();
-
       return Padding(
         padding: EdgeInsets.only(
           
@@ -425,13 +422,24 @@ Future<dynamic> buildShowModalBottomSheetAppointment(
                                     child: CustomButton(
                                       text: "Book Appointment",
                                       useGradient: true,
-                                      onTap: () {
+                                      onTap: () async {
+                                        // Check internet before making the appointment request
+                                        final hasInternet =
+                                            await ConnectivityService.hasInternet();
+                                        if (!hasInternet) {
+                                          Navigator.pop(context);
+                                          scaffoldMessengerError(
+                                            context,
+                                            'No internet connection. Please check your internet and try again.',
+                                          );
+                                          return;
+                                        }
+
                                         final String time = cubit.formatTime24H(
                                           cubit.timeOfDay ?? TimeOfDay.now(),
                                         );
                                         final String appointmentTime =
                                             "${cubit.dateTime.toString().substring(0, 10)} $time";
-                                        print(appointmentTime);
                                         cubit.postAppointment(
                                           doctorId: doctorID.toString(),
                                           startDate: appointmentTime,

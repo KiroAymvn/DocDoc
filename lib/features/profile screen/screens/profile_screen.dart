@@ -3,12 +3,15 @@ import 'dart:math';
 import 'package:appointment/core/constant/app_colors.dart';
 
 import 'package:appointment/core/models/user_model.dart';
+import 'package:appointment/core/network/connectivity_service.dart';
 import 'package:appointment/features/profile%20screen/data/presentation/get%20user%20cubit/get_user_cubit.dart';
 import 'package:appointment/features/profile%20screen/data/presentation/logout/logout_cubit.dart';
 import 'package:appointment/features/profile%20screen/screens/update_screen.dart';
+import 'package:appointment/shared/custom_scaffold_messanger.dart';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,7 +64,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   state is GetUserSuccess
                       ? Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => EditProfileScreen(userModel: state.userModel)),
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                EditProfileScreen(userModel: state.userModel),
+                          ),
                         )
                       : null;
                 },
@@ -74,7 +80,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       borderRadius: BorderRadius.circular(10.r),
                       border: Border.all(color: AppColors.kBorder),
                     ),
-                    child: SvgPicture.asset("assets/icons/edit-2.svg", height: 20.h),
+                    child: SvgPicture.asset(
+                      "assets/icons/edit-2.svg",
+                      height: 20.h,
+                    ),
                   ),
                 ),
               );
@@ -134,20 +143,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       color: AppColors.kLightGrey,
-                                      border: Border.all(color: AppColors.kPrimary.withOpacity(0.3), width: 3),
-                                      image: DecorationImage(image: imageProvider, fit: BoxFit.contain),
+                                      border: Border.all(
+                                        color: AppColors.kPrimary.withOpacity(
+                                          0.3,
+                                        ),
+                                        width: 3,
+                                      ),
+                                      image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.contain,
+                                      ),
                                     ),
                                   );
                                 },
-                                progressIndicatorBuilder: (context, url, progress) {
-                                  return SizedBox(
-                                    width: 100.h,
-                                    height: 100.h,
-                                    child: Center(
-                                      child: Lottie.asset("assets/lottie/Trail_loading.json", width: 40.h, height: 40.h),
-                                    ),
-                                  );
-                                },
+                                progressIndicatorBuilder:
+                                    (context, url, progress) {
+                                      return SizedBox(
+                                        width: 100.h,
+                                        height: 100.h,
+                                        child: Center(
+                                          child: Lottie.asset(
+                                            "assets/lottie/Trail_loading.json",
+                                            width: 40.h,
+                                            height: 40.h,
+                                          ),
+                                        ),
+                                      );
+                                    },
                                 errorWidget: (context, url, error) => SizedBox(
                                   width: 100.h,
                                   height: 100.h,
@@ -163,19 +185,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             CustomText(
-                              text: state is GetUserSuccess ? state.userModel.name : "",
+                              text: state is GetUserSuccess
+                                  ? state.userModel.name
+                                  : "",
                               size: 22,
                               fontWeight: FontWeight.w700,
                               color: AppColors.kDarkText,
                               alignment: Alignment.center,
                             ),
                             Gap(6.w),
-                            Icon(Icons.male, color: AppColors.kPrimary, size: 22.sp),
+                            Icon(
+                              Icons.male,
+                              color: AppColors.kPrimary,
+                              size: 22.sp,
+                            ),
                           ],
                         ),
                         Gap(4.h),
                         CustomText(
-                          text: "PATIENT ID : ${state is GetUserSuccess ? state.userModel.id : ""}",
+                          text:
+                              "PATIENT ID : ${state is GetUserSuccess ? state.userModel.id : ""}",
                           size: 13,
                           color: AppColors.kTextMuted,
                           fontWeight: FontWeight.w400,
@@ -187,12 +216,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Gap(8.h),
                   CustomUserDataListTile(
                     title: "Email address",
-                    subTitle: state is GetUserSuccess ? state.userModel.email : "",
+                    subTitle: state is GetUserSuccess
+                        ? state.userModel.email
+                        : "",
                     icon: CupertinoIcons.mail_solid,
                   ),
                   CustomUserDataListTile(
                     title: "Phone Number",
-                    subTitle: state is GetUserSuccess ? state.userModel.phone : "",
+                    subTitle: state is GetUserSuccess
+                        ? state.userModel.phone
+                        : "",
                     icon: CupertinoIcons.phone_fill,
                   ),
                   CustomUserDataListTile(
@@ -209,7 +242,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           builder: (context) {
                             return AlertDialog(
                               backgroundColor: Colors.transparent,
-                              icon: Lottie.asset("assets/lottie/Trail_loading.json", height: 50.h, width: 50.w),
+                              icon: Lottie.asset(
+                                "assets/lottie/Trail_loading.json",
+                                height: 50.h,
+                                width: 50.w,
+                              ),
                             );
                           },
                         );
@@ -219,8 +256,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       return Padding(
                         padding: EdgeInsets.symmetric(horizontal: 24.w),
                         child: GestureDetector(
-                          onTap: () {
-                            SignoutDialog(context, state, onPressed).show();
+                          onTap: () async {
+                            final isConnected =
+                                ConnectivityService.hasInternet();
+                            if (await isConnected) {
+                              SignoutDialog(context, state, onPressed).show();
+                            } else {
+                              scaffoldMessengerError(context, "No internet");
+                            }
                           },
                           child: Container(
                             width: 250.w,
@@ -228,12 +271,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             decoration: BoxDecoration(
                               color: Colors.transparent,
                               borderRadius: BorderRadius.circular(14.r),
-                              border: Border.all(color: AppColors.kError, width: 1.5),
+                              border: Border.all(
+                                color: AppColors.kError,
+                                width: 1.5,
+                              ),
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(Icons.logout_rounded, color: AppColors.kError, size: 20.sp),
+                                Icon(
+                                  Icons.logout_rounded,
+                                  color: AppColors.kError,
+                                  size: 20.sp,
+                                ),
                                 SizedBox(width: 8.w),
                                 CustomText(
                                   text: "Sign out",

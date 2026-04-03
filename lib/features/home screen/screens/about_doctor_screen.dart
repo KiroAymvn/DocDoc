@@ -2,6 +2,8 @@ import 'package:appointment/core/constant/app_colors.dart';
 import 'package:appointment/core/constant/screen_size.dart';
 import 'package:appointment/core/models/doctor_model.dart';
 import 'package:appointment/features/appointment/data/presentation/appointment_cubit.dart';
+import 'package:appointment/features/favorites/data/presentation/favorites_cubit.dart';
+import 'package:appointment/shared/custom_scaffold_messanger.dart';
 import 'package:appointment/shared/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -89,10 +91,34 @@ class _AboutDoctorScreenState extends State<AboutDoctorScreen> {
                   fontWeight: FontWeight.w700,
                   color: Colors.black87,
                 ),
-                _buildGlassButton(
-                  context,
-                  icon: Icons.favorite_border_rounded,
-                  onTap: () {},
+                // Favorite toggle button — reads FavoritesCubit state
+                BlocBuilder<FavoritesCubit, FavoritesState>(
+                  builder: (context, favState) {
+                    final isFav = context
+                        .read<FavoritesCubit>()
+                        .isFavorite(widget.doctor.doctorId);
+                    return _buildGlassButton(
+                      context,
+                      icon: isFav
+                          ? Icons.favorite_rounded
+                          : Icons.favorite_border_rounded,
+                      iconColor: isFav ? Colors.red : Colors.black87,
+                      onTap: () async {
+                        final wasAdded = await context
+                            .read<FavoritesCubit>()
+                            .toggleFavorite(widget.doctor);
+                        scaffoldMessengerError(
+                          context,
+                          wasAdded
+                              ? '${widget.doctor.name} added to favorites ❤️'
+                              : '${widget.doctor.name} removed from favorites',
+                          color: wasAdded
+                              ? AppColors.kPrimary
+                              : AppColors.kError,
+                        );
+                      },
+                    );
+                  },
                 ),
               ],
             ),
@@ -380,6 +406,7 @@ class _AboutDoctorScreenState extends State<AboutDoctorScreen> {
     BuildContext context, {
     required IconData icon,
     required VoidCallback onTap,
+    Color iconColor = Colors.black87,
   }) {
     return GestureDetector(
       onTap: onTap,
@@ -391,7 +418,7 @@ class _AboutDoctorScreenState extends State<AboutDoctorScreen> {
           border: Border.all(color: Colors.grey.shade200),
           borderRadius: BorderRadius.circular(12.r),
         ),
-        child: Icon(icon, color: Colors.black87, size: 20.sp),
+        child: Icon(icon, color: iconColor, size: 20.sp),
       ),
     );
   }

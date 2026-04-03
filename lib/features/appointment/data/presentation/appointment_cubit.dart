@@ -1,7 +1,6 @@
 import 'package:appointment/core/network/api_error.dart';
 import 'package:appointment/features/appointment/data/model/appointment_model.dart';
 import 'package:appointment/features/appointment/data/repo/appointment_repo.dart';
-import 'package:appointment/shared/custom_scaffold_messanger.dart';
 import 'package:bloc/bloc.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
@@ -65,8 +64,8 @@ class AppointmentCubit extends Cubit<AppointmentState> {
         emit(AppointmentFailed(errorMessage: e.message.toString()));
       } else {
         emit(AppointmentFailed(errorMessage: e.toString()));
-        return null;
       }
+      return null;
     }
   }
 }

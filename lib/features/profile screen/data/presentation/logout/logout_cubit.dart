@@ -1,4 +1,5 @@
 import 'package:appointment/core/network/api_error.dart';
+import 'package:appointment/core/storage/hive_service.dart';
 import 'package:appointment/core/utils/pref_helper.dart';
 import 'package:appointment/features/auth/screens/login_screen.dart';
 import 'package:appointment/features/profile%20screen/data/repo/user_repo.dart';
@@ -20,6 +21,10 @@ class LogoutCubit extends Cubit<LogoutState> {
       await _profileRepo.logout();
       await PrefHelper.saveToken(null);
       await PrefHelper.saveLogged(false);
+      
+      // Clear all cached offline data
+      await HiveService.clearAllBoxes();
+      
       final isLogged= await PrefHelper.isLogged();
       print("logout success");
       print("$isLogged at cubit");

@@ -1,6 +1,7 @@
 import 'package:appointment/core/constant/app_colors.dart';
 import 'package:appointment/features/appointment/data/presentation/appointment_cubit.dart';
 import 'package:appointment/features/appointment/screen/my_appointment_screen.dart';
+import 'package:appointment/features/favorites/screen/favorites_screen.dart';
 import 'package:appointment/features/home%20screen/screens/Home_screen.dart';
 import 'package:appointment/features/profile%20screen/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
@@ -20,30 +21,41 @@ class Root extends StatefulWidget {
 
 class _RootState extends State<Root> {
   int activeIndex = 0;
-  List<Widget> screens = [HomeScreen(), MyAppointmentScreen(), ProfileScreen()];
+
+  // Screens for each tab — Favorites is tab index 2 (between Appointments and Profile)
+  final List<Widget> _screens = const [
+    HomeScreen(),
+    MyAppointmentScreen(),
+    FavoritesScreen(),
+    ProfileScreen(),
+  ];
 
   void _onTabTapped(int index) {
     setState(() => activeIndex = index);
   }
 
-  void getAppointmentCount() async {
-    final List<AppointmentModel>? l = await context.read<AppointmentCubit>().getAppointment();
-    context.read<AppointmentCubit>().appointmentCount = l!.length;
+  Future<void> _loadAppointmentCount() async {
+    final List<AppointmentModel>? list =
+        await context.read<AppointmentCubit>().getAppointment();
+        
+    context.read<AppointmentCubit>().appointmentCount = list?.length ?? 0;
+    
     final count = context.read<AppointmentCubit>().appointmentCount;
     await PrefHelper.saveAppointmentCount(count: count);
-    context.read<AppointmentCubit>().appointmentCount = await PrefHelper.getAppointmentCount() ?? 0;
+    context.read<AppointmentCubit>().appointmentCount =
+        await PrefHelper.getAppointmentCount() ?? 0;
   }
 
   @override
   void initState() {
-    getAppointmentCount();
+    _loadAppointmentCount();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: screens[activeIndex],
+      body: _screens[activeIndex],
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: AppColors.kBorder,
@@ -63,21 +75,27 @@ class _RootState extends State<Root> {
               children: [
                 _buildNavItem(
                   index: 0,
-                  icon: "assets/icons/home-2.svg",
-                  label: "Home",
+                  icon: 'assets/icons/home-2.svg',
+                  label: 'Home',
                 ),
                 _buildNavItem(
                   index: 1,
-                  icon: "assets/icons/calendar-2.svg",
-                  label: "Appointments",
-                  badgeCount: context.read<AppointmentCubit>().appointmentCount != 0
-                      ? context.read<AppointmentCubit>().appointmentCount
-                      : null,
+                  icon: 'assets/icons/calendar-2.svg',
+                  label: 'Appointments',
+                  badgeCount:
+                      context.read<AppointmentCubit>().appointmentCount != 0
+                          ? context.read<AppointmentCubit>().appointmentCount
+                          : null,
                 ),
                 _buildNavItem(
                   index: 2,
-                  icon: "assets/icons/setting-4.svg",
-                  label: "Profile",
+                  iconData: Icons.favorite_rounded,
+                  label: 'Favorites',
+                ),
+                _buildNavItem(
+                  index: 3,
+                  icon: 'assets/icons/setting-4.svg',
+                  label: 'Profile',
                 ),
               ],
             ),
@@ -89,7 +107,8 @@ class _RootState extends State<Root> {
 
   Widget _buildNavItem({
     required int index,
-    required String icon,
+    String? icon,
+    IconData? iconData,
     required String label,
     int? badgeCount,
   }) {
@@ -106,7 +125,9 @@ class _RootState extends State<Root> {
           vertical: 10.h,
         ),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.kPrimary.withOpacity(0.1) : Colors.transparent,
+          color: isSelected
+              ? AppColors.kPrimary.withOpacity(0.1)
+              : Colors.transparent,
           borderRadius: BorderRadius.circular(14.r),
         ),
         child: Row(
@@ -115,12 +136,25 @@ class _RootState extends State<Root> {
             Stack(
               clipBehavior: Clip.none,
               children: [
-                SvgPicture.asset(
-                  icon,
-                  height: 22.h,
-                  width: 22.w,
-                  color: isSelected ? AppColors.kPrimary : AppColors.kTextMuted,
-                ),
+                // Render either an SVG asset or a Material icon
+                if (icon != null)
+                  SvgPicture.asset(
+                    icon,
+                    height: 22.h,
+                    width: 22.w,
+                    // ignore: deprecated_member_use
+                    color: isSelected
+                        ? AppColors.kPrimary
+                        : AppColors.kTextMuted,
+                  )
+                else if (iconData != null)
+                  Icon(
+                    iconData,
+                    size: 22.sp,
+                    color: isSelected
+                        ? AppColors.kPrimary
+                        : AppColors.kTextMuted,
+                  ),
                 if (badgeCount != null)
                   Positioned(
                     top: -6,
@@ -132,7 +166,8 @@ class _RootState extends State<Root> {
                         shape: BoxShape.circle,
                         border: Border.all(color: Colors.white, width: 1.5),
                       ),
-                      constraints: BoxConstraints(minWidth: 16.w, minHeight: 16.h),
+                      constraints:
+                          BoxConstraints(minWidth: 16.w, minHeight: 16.h),
                       child: Center(
                         child: Text(
                           badgeCount.toString(),
