@@ -66,6 +66,7 @@ class _SignupScreenState extends State<SignupScreen>
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthSuccess) {
+          scaffoldMessengerError(context, "Email created successfully",color: AppColors.kSuccess);
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => LoginScreen()),
@@ -87,7 +88,6 @@ class _SignupScreenState extends State<SignupScreen>
             onTap: () => FocusScope.of(context).unfocus(),
             child: Scaffold(
               body: Container(
-                
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
@@ -446,9 +446,7 @@ class MaleFemaleWidget extends StatelessWidget {
           minHeight: 80.h,
           minWidth: 110.w,
           initialLabelIndex: 0,
-          customTextStyles: [
-          
-          ],
+          customTextStyles: [],
           iconSize: 20.sp,
           curve: Curves.fastEaseInToSlowEaseOut,
           cornerRadius: 14.r,

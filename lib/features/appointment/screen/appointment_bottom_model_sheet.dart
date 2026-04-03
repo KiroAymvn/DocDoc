@@ -30,6 +30,7 @@ Future<dynamic> buildShowModalBottomSheetAppointment(
       curve: SawTooth(3),
       duration: Duration(seconds: 1),
       reverseCurve: SawTooth(1),
+
     ),
     showDragHandle: false,
     isDismissible: true,
@@ -43,6 +44,7 @@ Future<dynamic> buildShowModalBottomSheetAppointment(
 
       return Padding(
         padding: EdgeInsets.only(
+          
           bottom: MediaQuery.of(context).viewInsets.bottom,
         ),
         child: ConstrainedBox(
