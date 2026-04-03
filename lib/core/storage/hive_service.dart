@@ -1,6 +1,7 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:appointment/core/storage/hive_adapters.dart';
 import 'package:appointment/core/storage/hive_boxes.dart';
+import 'package:appointment/core/models/doctor_model.dart';
 
 /// Initializes Hive and opens all required boxes.
 /// Must be called before [runApp] in main.dart.
@@ -19,7 +20,7 @@ class HiveService {
     await Future.wait([
       Hive.openBox(HiveBoxes.homeData),
       Hive.openBox(HiveBoxes.allDoctors),
-      Hive.openBox(HiveBoxes.favorites),
+      Hive.openBox<DoctorModel>(HiveBoxes.favorites),
       Hive.openBox(HiveBoxes.userProfile),
       Hive.openBox(HiveBoxes.appointments),
     ]);
@@ -49,7 +50,7 @@ class HiveService {
     await Future.wait([
       Hive.box(HiveBoxes.homeData).clear(),
       Hive.box(HiveBoxes.allDoctors).clear(),
-      Hive.box(HiveBoxes.favorites).clear(),
+      Hive.box<DoctorModel>(HiveBoxes.favorites).clear(),
       Hive.box(HiveBoxes.userProfile).clear(),
       Hive.box(HiveBoxes.appointments).clear(),
     ]);
